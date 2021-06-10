@@ -1,8 +1,6 @@
 package edu.attractor.onlinestore.entities;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,7 +9,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "clients")
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class Client {
 
     @Id

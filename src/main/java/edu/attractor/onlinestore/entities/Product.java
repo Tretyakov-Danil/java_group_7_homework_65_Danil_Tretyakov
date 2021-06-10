@@ -1,9 +1,7 @@
 package edu.attractor.onlinestore.entities;
 
 import edu.attractor.onlinestore.enums.ProductType;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -13,7 +11,8 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "products")
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
 
     @Id
@@ -37,5 +36,8 @@ public class Product {
 
     @Column
     private BigDecimal price;
+
+    @ManyToOne
+    private Brand brand;
 
 }
