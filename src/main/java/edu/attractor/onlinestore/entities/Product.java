@@ -25,6 +25,7 @@ public class Product {
     @Column
     private String description;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 60)
     private ProductType type;
 
