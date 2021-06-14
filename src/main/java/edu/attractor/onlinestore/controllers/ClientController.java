@@ -44,7 +44,7 @@ public class ClientController {
     @PostMapping("/login")
     public Integer login(@Valid @RequestBody ClientLoginDto clientDto) throws ResourceNotFoundException {
         Optional<Client> findToLogin = this.clientService.
-                findByEmailAndPassword(clientDto.getEmail(), clientDto.getPassword());
+                findByEmailAndPassword(clientDto.getEmail(), passwordEncoder.encode(clientDto.getPassword()));
         if (findToLogin.isEmpty()) throw new ResourceNotFoundException();
         return findToLogin.get().getId();
     }

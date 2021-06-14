@@ -38,4 +38,7 @@ public class Product {
     @ManyToOne
     private Brand brand;
 
+    @Column
+    private int amount;
+
 }

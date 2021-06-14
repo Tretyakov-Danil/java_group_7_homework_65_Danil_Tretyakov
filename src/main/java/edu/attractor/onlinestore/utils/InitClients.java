@@ -20,19 +20,23 @@ public class InitClients {
         return (args) -> {
             clientRepo.deleteAll();
             clientRepo.save(Client.builder()
+                    .id(1)
                     .email("test@test.com")
                     .username("testClient")
                     .password(encoder.encode("password")).build());
 
             clientRepo.save(Client.builder()
+                    .id(2)
                     .email("test2@testing.com")
                     .username("clientNum.2")
                     .password(encoder.encode("wordpass")).build());
 
             clientRepo.save(Client.builder()
+                    .id(3)
                     .email("yandex@yan.ru")
                     .username("YandexBot")
                     .password(encoder.encode("alice")).build());
+
         };
 
     }

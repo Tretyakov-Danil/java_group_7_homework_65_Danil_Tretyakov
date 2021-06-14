@@ -7,18 +7,17 @@ import edu.attractor.onlinestore.services.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-@RestController
+@Controller
 @RequestMapping("/products")
 public class ProductsController {
     private final ProductService productService;
@@ -27,23 +26,40 @@ public class ProductsController {
     public ProductsController(ProductService productService) {
         this.productService = productService;
     }
+
     @GetMapping
-    public Page<ProductDto> getProducts(Pageable pageable){
+    public String getProducts(Model model, @PageableDefault(size = 4) Pageable pageable){
         Page<Product> products = this.productService.findAll(pageable);
-        return products.map(product -> modelMapper.map(product, ProductDto.class));
+        model.addAttribute("products", products.getContent().stream()
+                .map(product -> modelMapper.map(product, ProductDto.class)).collect(Collectors.toList()));
+        model.addAttribute("pages", products.getPageable());
+        return "products";
     }
 
     @GetMapping("/{productId}")
-    public ProductDto getInfoAboutProduct(@PathVariable Integer productId) throws FileNotFoundException{
+    public String getInfoAboutProduct(Model model, @PathVariable Integer productId) throws FileNotFoundException{
         Optional<Product> product = this.productService.getProductInfo(productId);
         if (product.isEmpty()) throw new FileNotFoundException(String.format( "Product with productId %s not found", productId));
-        return modelMapper.map(product.get(), ProductDto.class);
+        model.addAttribute("product", modelMapper.map(product.get(), ProductDto.class));
+        return "product_info";
     }
 
-    @GetMapping("/name/{name}")
-    public List<ProductDto> findProductsByName(@PathVariable String name){
-        return this.productService.findAllByName(name).stream()
-                .map(product -> modelMapper.map(product, ProductDto.class)).collect(Collectors.toList());
+    @GetMapping("/name")
+    public String findProductsByName(Model model, @RequestParam String name, @PageableDefault(size = 2) Pageable pageable){
+        Page<Product> products = this.productService.findAllByName(name, pageable);
+        model.addAttribute("products", products.getContent().stream()
+        .map(product -> modelMapper.map(product, ProductDto.class)).collect(Collectors.toList()));
+        model.addAttribute("pages", products.getPageable());
+        return "products";
+    }
+
+    @GetMapping("/brand/{brandId}")
+    public String findProductsByBrand(Model model, @PathVariable int brandId, @PageableDefault(size = 2) Pageable pageable){
+        Page<Product> products = this.productService.findAllByBrand(brandId, pageable);
+                model.addAttribute("products", products.getContent().stream()
+                .map(product -> modelMapper.map(product, ProductDto.class)));
+        model.addAttribute("pages", products.getPageable());
+        return "products";
     }
 
     // this method had to find products by the prices up to highest
@@ -54,9 +70,12 @@ public class ProductsController {
 //    }
 
     @GetMapping("/type/{type}")
-    public List<ProductDto> findProductsByCategory(@PathVariable ProductType type){
-        return this.productService.findAllByCategory(type).stream()
-                .map(product -> modelMapper.map(product, ProductDto.class)).collect(Collectors.toList());
+    public String findProductsByCategory(Model model, @PathVariable ProductType type, @PageableDefault(size = 2) Pageable pageable){
+        Page<Product> products = this.productService.findAllByCategory(type, pageable);
+        model.addAttribute("products", products.getContent().stream()
+                .map(product -> modelMapper.map(product, ProductDto.class)));
+        model.addAttribute("pages", products.getPageable());
+        return "products";
     }
 
 }

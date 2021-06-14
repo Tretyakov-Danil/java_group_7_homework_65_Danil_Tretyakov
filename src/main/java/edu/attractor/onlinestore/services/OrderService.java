@@ -14,11 +14,11 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public List<Order> getClientOrders(String clientId) {
-        return this.orderRepository.findAllByClient_Id(clientId);
+    public List<Order> getClientOrders(int clientId) {
+        return this.orderRepository.findAllByClientId(clientId);
     }
 
-    public List<Order> getClientBasket(String clientId) {
+    public List<Order> getClientBasket(int clientId) {
         return this.orderRepository.findAllByClient_IdAndIsPaidFalse(clientId);
     }
 }

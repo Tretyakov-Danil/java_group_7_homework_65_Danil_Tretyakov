@@ -22,14 +22,14 @@ public class OrderController {
     }
 
     @GetMapping("/{clientId}")
-    public List<OrderDto> showClientAllOrders(@PathVariable String clientId){
+    public List<OrderDto> showClientAllOrders(@PathVariable int clientId){
         return this.orderService.getClientOrders(clientId).stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/basket/{clientId}")
-    public List<OrderDto> showClientBasket(@PathVariable String clientId){
+    public List<OrderDto> showClientBasket(@PathVariable int clientId){
         return this.orderService.getClientBasket(clientId).stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))
                 .collect(Collectors.toList());

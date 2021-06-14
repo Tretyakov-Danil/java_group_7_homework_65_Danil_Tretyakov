@@ -27,15 +27,19 @@ public class ProductService {
         return this.productRepository.findAll(pageable);
     }
 
-    public List<Product> findAllByName(String name) {
-        return this.productRepository.findAllByNameContaining(name);
+    public Page<Product> findAllByName(String name, Pageable pageable) {
+        return this.productRepository.findAllByNameContaining(name, pageable);
     }
 
 //    public List<Product> findAllByPrice(String name) {
 //        return this.productRepository.findAllByPrice(name);
 //    }
 
-    public List<Product> findAllByCategory(ProductType type) {
-        return this.productRepository.findAllByType(type);
+    public Page<Product> findAllByCategory(ProductType type, Pageable pageable) {
+        return this.productRepository.findAllByType(type, pageable);
+    }
+
+    public Page<Product> findAllByBrand(int brandId, Pageable pageable) {
+        return this.productRepository.findAllByBrand_Id(brandId, pageable);
     }
 }
