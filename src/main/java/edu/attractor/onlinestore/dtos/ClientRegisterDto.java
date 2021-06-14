@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClientDto {
+public class ClientRegisterDto {
     private int id;
 
     @NotBlank

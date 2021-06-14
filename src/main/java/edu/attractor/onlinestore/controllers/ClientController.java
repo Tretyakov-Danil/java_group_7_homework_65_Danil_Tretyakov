@@ -1,7 +1,9 @@
 package edu.attractor.onlinestore.controllers;
 
-import edu.attractor.onlinestore.dtos.ClientDto;
+import edu.attractor.onlinestore.dtos.ClientLoginDto;
+import edu.attractor.onlinestore.dtos.ClientRegisterDto;
 import edu.attractor.onlinestore.entities.Client;
+import edu.attractor.onlinestore.exceptions.ResourceNotFoundException;
 import edu.attractor.onlinestore.exceptions.UserAlreadyExistException;
 import edu.attractor.onlinestore.services.ClientService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,7 +28,7 @@ public class ClientController {
     }
 
     @PostMapping("/register")
-    public Integer register(@Valid @RequestBody ClientDto clientDto){
+    public Integer register(@Valid @RequestBody ClientRegisterDto clientDto){
         Optional<Client> clientByEmail = this.clientService.findByEmail(clientDto.getEmail());
         if (clientByEmail.isPresent()) {
             throw new UserAlreadyExistException(String.format("User with email %s already exist", clientDto.getEmail()));
@@ -37,6 +39,14 @@ public class ClientController {
                 .password(passwordEncoder.encode(clientDto.getPassword()))
                 .build();
         return this.clientService.saveClient(client).getId();
+    }
+
+    @PostMapping("/login")
+    public Integer login(@Valid @RequestBody ClientLoginDto clientDto) throws ResourceNotFoundException {
+        Optional<Client> findToLogin = this.clientService.
+                findByEmailAndPassword(clientDto.getEmail(), clientDto.getPassword());
+        if (findToLogin.isEmpty()) throw new ResourceNotFoundException();
+        return findToLogin.get().getId();
     }
 
 }

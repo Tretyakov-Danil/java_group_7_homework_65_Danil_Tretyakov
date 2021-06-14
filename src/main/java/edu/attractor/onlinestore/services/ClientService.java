@@ -21,13 +21,17 @@ public class ClientService implements UserDetailsService {
         return this.clientRepository.findByEmail(email);
     }
 
+    public Client saveClient(Client client) {
+        return this.clientRepository.save(client);
+    }
+
+    public Optional<Client> findByEmailAndPassword(String email, String password){
+        return this.clientRepository.findByEmailAndPassword(email, password);
+    };
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return  clientRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", username)));
-    }
-
-    public Client saveClient(Client client) {
-        return this.clientRepository.save(client);
     }
 }

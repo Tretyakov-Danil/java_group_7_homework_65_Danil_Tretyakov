@@ -23,7 +23,7 @@ public class Client implements UserDetails {
     @Column(length = 50)
     private String username;
 
-    @Column(length = 30)
+    @Column(length = 60)
     private String password;
 
     @Column(length = 60)
