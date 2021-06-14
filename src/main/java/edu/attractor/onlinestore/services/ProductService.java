@@ -2,6 +2,7 @@ package edu.attractor.onlinestore.services;
 
 import edu.attractor.onlinestore.dtos.ProductDto;
 import edu.attractor.onlinestore.entities.Product;
+import edu.attractor.onlinestore.enums.ProductType;
 import edu.attractor.onlinestore.repositories.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +35,7 @@ public class ProductService {
 //        return this.productRepository.findAllByPrice(name);
 //    }
 
-    public List<Product> findAllByCategory(String type) {
-        return this.productRepository.findAllByTypeContaining(type);
+    public List<Product> findAllByCategory(ProductType type) {
+        return this.productRepository.findAllByType(type);
     }
 }

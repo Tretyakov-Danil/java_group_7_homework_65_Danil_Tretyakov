@@ -2,6 +2,7 @@ package edu.attractor.onlinestore.controllers;
 
 import edu.attractor.onlinestore.dtos.ProductDto;
 import edu.attractor.onlinestore.entities.Product;
+import edu.attractor.onlinestore.enums.ProductType;
 import edu.attractor.onlinestore.services.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -39,7 +40,7 @@ public class ProductsController {
         return modelMapper.map(product.get(), ProductDto.class);
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public List<ProductDto> findProductsByName(@PathVariable String name){
         return this.productService.findAllByName(name).stream()
                 .map(product -> modelMapper.map(product, ProductDto.class)).collect(Collectors.toList());
@@ -52,8 +53,8 @@ public class ProductsController {
 //                .map(product -> modelMapper.map(product, ProductDto.class)).collect(Collectors.toList());
 //    }
 
-    @GetMapping("/{type}")
-    public List<ProductDto> findProductsByCategory(@PathVariable String type){
+    @GetMapping("/type/{type}")
+    public List<ProductDto> findProductsByCategory(@PathVariable ProductType type){
         return this.productService.findAllByCategory(type).stream()
                 .map(product -> modelMapper.map(product, ProductDto.class)).collect(Collectors.toList());
     }

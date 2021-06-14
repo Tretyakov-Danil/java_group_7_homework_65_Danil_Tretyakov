@@ -30,4 +30,7 @@ public class Order {
     @Column
     private Boolean isPaid;
 
+    @Column
+    private int amount;
+
 }

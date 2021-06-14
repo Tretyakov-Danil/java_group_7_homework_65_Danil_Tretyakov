@@ -33,9 +33,6 @@ public class Product {
     private String imagePath;
 
     @Column
-    private int amount;
-
-    @Column
     private BigDecimal price;
 
     @ManyToOne
