@@ -44,25 +44,32 @@
         <button type="submit" class="btn btn-outline-success px-4">Search</button>
         </div>
     </form>
-    <#if firstOpening>
+    <#if products?size=0>
         <div>Type something to find it</div>
     <#else>
+        <#if products?size=0>
+            <div class="text-center fs-4">Sorry, we didn't find anything.</div>
+        <#else>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 mx-auto mt-5">
         <#list products as product>
-            <div style="border: red 2px solid">
-                <img src="../static/images/${product.imagePath}">
-                ${product.name}
-                <p>
-                    ${product.brand.name}
-                </p>
-                <p>
-                    ${product.description}
-                </p>
-                Amount: ${product.amount}
-                <form action="/products/${product.id}">
-                    <button type="submit">More info</button>
-                </form>
+            <div class="card mb-3 mx-2" style="max-width: 540px;">
+                <div class="col-md-4">
+                    <img src="..." alt="Product's photo">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h4 class="card-title">${product.brand.name}</h4>
+                        <h5 class="card-title">${product.name}</h5>
+                        <p class="card-text">${product.description}</p>
+                        <form action="/products/${product.id}">
+                            <button class="btn btn-outline-success" type="submit">More info</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </#list>
+        </div>
+        </#if>
     </#if>
 </body>
 </html>

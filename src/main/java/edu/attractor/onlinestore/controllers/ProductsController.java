@@ -47,14 +47,12 @@ public class ProductsController {
 
     @GetMapping("/filter")
     public String getPageForSearch(Model model){
-        model.addAttribute("firstOpening", true);
         model.addAttribute("products", List.of());
         return "search";
     }
 
     @GetMapping("/filter/result")
     public String findWithFilter(Model model,@ModelAttribute("filter") FilterDto filter){
-        model.addAttribute("firstOpening", false);
         List<ProductDto> products = this.productService.findAllWithFilter(filter).stream()
                 .map(product -> modelMapper.map(product, ProductDto.class))
                 .collect(Collectors.toList());
