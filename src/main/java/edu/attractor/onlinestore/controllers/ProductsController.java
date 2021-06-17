@@ -1,8 +1,8 @@
 package edu.attractor.onlinestore.controllers;
 
+import edu.attractor.onlinestore.dtos.FilterDto;
 import edu.attractor.onlinestore.dtos.ProductDto;
 import edu.attractor.onlinestore.entities.Product;
-import edu.attractor.onlinestore.enums.ProductType;
 import edu.attractor.onlinestore.services.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Controller
@@ -44,23 +43,17 @@ public class ProductsController {
         return "product_info";
     }
 
-    @GetMapping("/name")
-    public String findProductsByName(Model model, @RequestParam String name, @PageableDefault(size = 2) Pageable pageable){
-        Page<Product> products = this.productService.findAllByName(name, pageable);
-        model.addAttribute("products", products.getContent().stream()
-        .map(product -> modelMapper.map(product, ProductDto.class)).collect(Collectors.toList()));
-        model.addAttribute("pages", products.getPageable());
-        return "products";
+    @GetMapping("/filter")
+    public String getPageForSearch(){
+        return "search";
     }
 
-    @GetMapping("/brand/{brandId}")
-    public String findProductsByBrand(Model model, @PathVariable int brandId, @PageableDefault(size = 2) Pageable pageable){
-        Page<Product> products = this.productService.findAllByBrand(brandId, pageable);
-                model.addAttribute("products", products.getContent().stream()
-                .map(product -> modelMapper.map(product, ProductDto.class)));
-        model.addAttribute("pages", products.getPageable());
-        return "products";
+    @GetMapping("/filter/result")
+    public String findWithFilter(Model model, @RequestBody FilterDto filter){
+        model.addAttribute("products", this.productService.findAllWithFilter(filter));
+        return "search";
     }
+
 
     // this method had to find products by the prices up to highest
 //    @GetMapping("/{price}")
@@ -68,14 +61,5 @@ public class ProductsController {
 //        return this.productService.findAllByName(name).stream()
 //                .map(product -> modelMapper.map(product, ProductDto.class)).collect(Collectors.toList());
 //    }
-
-    @GetMapping("/type/{type}")
-    public String findProductsByCategory(Model model, @PathVariable ProductType type, @PageableDefault(size = 2) Pageable pageable){
-        Page<Product> products = this.productService.findAllByCategory(type, pageable);
-        model.addAttribute("products", products.getContent().stream()
-                .map(product -> modelMapper.map(product, ProductDto.class)));
-        model.addAttribute("pages", products.getPageable());
-        return "products";
-    }
 
 }

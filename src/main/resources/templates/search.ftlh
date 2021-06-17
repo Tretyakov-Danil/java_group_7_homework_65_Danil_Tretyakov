@@ -23,27 +23,26 @@
             </ul>
         </div>
     </nav>
-    <#list products as product>
-        <div style="border: red 2px solid">
-            <img src="../static/images/${product.imagePath}">
-            ${product.name}
-            <p>
-                ${product.brand.name}
-            </p>
-            <p>
-                ${product.description}
-            </p>
-            Amount: ${product.amount}
-            <form action="/products/${product.id}">
-                <button type="submit">More info</button>
-            </form>
+
+    <form class="mx-auto w-75 mt-3" action="/products/filter/result" method="get">
+            <input type="email" class="form-control" name="name" placeholder="Enter the name of the product">
+            <div class="text-center">
+                <select class="form-select mt-2 py-2" style="width: 49.5%" aria-label=".form-select-sm example" name="brand">
+                    <option selected>Brand</option>
+                    <option value="Apple">Apple</option>
+                    <option value="Samsung">Samsung</option>
+                    <option value="Xiaomi">Xiaomi</option>
+                </select>
+                <select class="form-select mt-2 py-2" style="width: 49.5%" aria-label=".form-select-sm example" name="type">
+                    <option selected>Type</option>
+                    <option value="SMARTPHONE">SMARTPHONE</option>
+                    <option value="CASE">CASE</option>
+                    <option value="HEADSET">HEADSET</option>
+                </select>
+            </div>
+        <div class="mt-2 mx-auto text-center">
+        <button type="submit" class="btn btn-outline-success px-4">Search</button>
         </div>
-    </#list>
-    <a href="/products?size=${pages.getPageSize()}&page=${pages.pageNumber+1}" type="button">Next Page</a>
-    <hr>
-    <form action="/products/name" method="get">
-        <input type="text" name="name" placeholder="By name for now">
-        <button type="submit">Submit</button>
     </form>
 
 </body>

@@ -1,5 +1,6 @@
 package edu.attractor.onlinestore.services;
 
+import edu.attractor.onlinestore.dtos.FilterDto;
 import edu.attractor.onlinestore.dtos.ProductDto;
 import edu.attractor.onlinestore.entities.Product;
 import edu.attractor.onlinestore.enums.ProductType;
@@ -8,8 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProductService {
@@ -27,19 +27,24 @@ public class ProductService {
         return this.productRepository.findAll(pageable);
     }
 
-    public Page<Product> findAllByName(String name, Pageable pageable) {
-        return this.productRepository.findAllByNameContaining(name, pageable);
-    }
+    public Collection<Product> findAllWithFilter(FilterDto filter) {
+        Set<Product> products = new HashSet<>();
+        if (filter.getName() != null){
+            products.addAll(this.productRepository.findAllByNameContaining(filter.getName()));
+        }
 
-//    public List<Product> findAllByPrice(String name) {
-//        return this.productRepository.findAllByPrice(name);
-//    }
+        if (filter.getBrand()!= null){
+            products.addAll(this.productRepository.findAllByBrand_Name(filter.getBrand()));
+        }
 
-    public Page<Product> findAllByCategory(ProductType type, Pageable pageable) {
-        return this.productRepository.findAllByType(type, pageable);
-    }
+        if (filter.getType() != null){
+            products.addAll(this.productRepository.findAllByType(filter.getType()));
+        }
 
-    public Page<Product> findAllByBrand(int brandId, Pageable pageable) {
-        return this.productRepository.findAllByBrand_Id(brandId, pageable);
+        if (filter.getMaxAmount() != 0){
+            products.addAll(this.productRepository.findAllByAmountIsLessThan(filter.getMaxAmount()));
+        }
+
+        return products;
     }
 }

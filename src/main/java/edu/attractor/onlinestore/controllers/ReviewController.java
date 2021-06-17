@@ -24,6 +24,7 @@ public class ReviewController {
 
     @GetMapping("/{productId}")
     public List<ReviewDto> showReviews(@PathVariable String productId){
+
         return this.reviewService.getReviewsByProductId(productId).stream()
                 .map(review -> modelMapper.map(review, ReviewDto.class)).collect(Collectors.toList());
     }
