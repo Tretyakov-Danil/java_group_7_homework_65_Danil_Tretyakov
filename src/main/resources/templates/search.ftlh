@@ -24,17 +24,17 @@
         </div>
     </nav>
 
-    <form class="mx-auto w-75 mt-3" action="/products/filter/result" method="get">
-            <input type="email" class="form-control" name="name" placeholder="Enter the name of the product">
+    <form class="mx-auto w-75 mt-3" action="/products/filter/result" method="get" modelAttribute="filter">
+            <input type="text" class="form-control" name="name" placeholder="Enter the name of the product">
             <div class="text-center">
                 <select class="form-select mt-2 py-2" style="width: 49.5%" aria-label=".form-select-sm example" name="brand">
-                    <option selected>Brand</option>
+                    <option selected value="">Brand</option>
                     <option value="Apple">Apple</option>
                     <option value="Samsung">Samsung</option>
                     <option value="Xiaomi">Xiaomi</option>
                 </select>
                 <select class="form-select mt-2 py-2" style="width: 49.5%" aria-label=".form-select-sm example" name="type">
-                    <option selected>Type</option>
+                    <option selected value="">Type</option>
                     <option value="SMARTPHONE">SMARTPHONE</option>
                     <option value="CASE">CASE</option>
                     <option value="HEADSET">HEADSET</option>
@@ -44,6 +44,25 @@
         <button type="submit" class="btn btn-outline-success px-4">Search</button>
         </div>
     </form>
-
+    <#if firstOpening>
+        <div>Type something to find it</div>
+    <#else>
+        <#list products as product>
+            <div style="border: red 2px solid">
+                <img src="../static/images/${product.imagePath}">
+                ${product.name}
+                <p>
+                    ${product.brand.name}
+                </p>
+                <p>
+                    ${product.description}
+                </p>
+                Amount: ${product.amount}
+                <form action="/products/${product.id}">
+                    <button type="submit">More info</button>
+                </form>
+            </div>
+        </#list>
+    </#if>
 </body>
 </html>

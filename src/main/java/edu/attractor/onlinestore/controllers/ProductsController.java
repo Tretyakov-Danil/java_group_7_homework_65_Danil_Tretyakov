@@ -13,7 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Controller
@@ -44,13 +46,19 @@ public class ProductsController {
     }
 
     @GetMapping("/filter")
-    public String getPageForSearch(){
+    public String getPageForSearch(Model model){
+        model.addAttribute("firstOpening", true);
+        model.addAttribute("products", List.of());
         return "search";
     }
 
     @GetMapping("/filter/result")
-    public String findWithFilter(Model model, @RequestBody FilterDto filter){
-        model.addAttribute("products", this.productService.findAllWithFilter(filter));
+    public String findWithFilter(Model model,@ModelAttribute("filter") FilterDto filter){
+        model.addAttribute("firstOpening", false);
+        List<ProductDto> products = this.productService.findAllWithFilter(filter).stream()
+                .map(product -> modelMapper.map(product, ProductDto.class))
+                .collect(Collectors.toList());
+        model.addAttribute("products", products);
         return "search";
     }
 

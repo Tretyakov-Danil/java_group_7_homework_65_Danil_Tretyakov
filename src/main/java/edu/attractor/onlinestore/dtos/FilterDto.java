@@ -7,8 +7,7 @@ import lombok.Data;
 @Data
 public class FilterDto {
     private String name;
-    private ProductType type;
+    private String type;
     private String brand;
-
     private int maxAmount;
 }

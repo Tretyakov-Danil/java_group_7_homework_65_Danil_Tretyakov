@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -27,22 +28,36 @@ public class ProductService {
         return this.productRepository.findAll(pageable);
     }
 
-    public Collection<Product> findAllWithFilter(FilterDto filter) {
-        Set<Product> products = new HashSet<>();
-        if (filter.getName() != null){
-            products.addAll(this.productRepository.findAllByNameContaining(filter.getName()));
-        }
-
-        if (filter.getBrand()!= null){
-            products.addAll(this.productRepository.findAllByBrand_Name(filter.getBrand()));
-        }
-
-        if (filter.getType() != null){
-            products.addAll(this.productRepository.findAllByType(filter.getType()));
-        }
+    public List<Product> findAllWithFilter(FilterDto filter) {
+        List<Product> products = new ArrayList<>();
 
         if (filter.getMaxAmount() != 0){
             products.addAll(this.productRepository.findAllByAmountIsLessThan(filter.getMaxAmount()));
+        }
+
+        if (!"".equals(filter.getName())) {
+            products.addAll(this.productRepository.findAllByNameContaining(filter.getName()));
+            if ("".equals(filter.getBrand()) || "".equals(filter.getType())) return products;
+            return products.stream()
+                    .takeWhile(product -> product.getType().toString().equals(filter.getType()))
+                    .takeWhile(product -> product.getBrand().getName().equals(filter.getBrand()))
+                    .collect(Collectors.toList());
+        }
+
+        if (!"".equals(filter.getBrand())){
+            products.addAll(this.productRepository.findAllByBrand_Name(filter.getBrand()));
+            if ("".equals(filter.getName()) || "".equals(filter.getType())) return products;
+            return products.stream()
+                    .takeWhile(product -> product.getType().toString().equals(filter.getType()))
+                    .collect(Collectors.toList());
+        }
+
+        if (!"".equals(filter.getType())){
+            products.addAll(this.productRepository.findAllByType(ProductType.valueOf(filter.getType())));
+            if ("".equals(filter.getBrand()) || "".equals(filter.getName())) return products;
+            return products.stream()
+                    .takeWhile(product -> product.getBrand().getName().equals(filter.getBrand()))
+                    .collect(Collectors.toList());
         }
 
         return products;
