@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -28,11 +27,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         String fetchUsersQuery = "select email, password, enabled"
-                + " from customers"
+                + " from clients"
                 + " where email = ?";
 
         String fetchRoleQuery = "select email, role"
-                + " from customers"
+                + " from clients"
                 + " where email = ?";
 
         auth.jdbcAuthentication()
@@ -44,15 +43,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin().loginPage("/login");
+        http.formLogin().loginPage("/client/login");
 
         http.authorizeRequests()
                 .anyRequest()
                 .permitAll();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.httpBasic();
-        http.formLogin().disable().logout().disable();
-        http.csrf().disable();
     }
 }

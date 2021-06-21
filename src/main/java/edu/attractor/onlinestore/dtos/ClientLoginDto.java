@@ -12,6 +12,9 @@ import javax.validation.constraints.Size;
 @Builder
 @EqualsAndHashCode
 
+@Getter
+@Setter
+
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClientLoginDto {

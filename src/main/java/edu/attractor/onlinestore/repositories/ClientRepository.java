@@ -2,6 +2,7 @@ package edu.attractor.onlinestore.repositories;
 
 import edu.attractor.onlinestore.entities.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 

@@ -31,25 +31,16 @@
             </ul>
         </div>
     </nav>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 mx-auto mt-5">
-        <#list products as product>
-            <div class="card mb-3 mx-2" style="max-width: 540px;">
-                <div class="col-md-4">
-                    <img src="..." alt="Product's photo">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h4 class="card-title">${product.brand.name}</h4>
-                        <h5 class="card-title">${product.name}</h5>
-                        <p class="card-text">${product.description}</p>
-                        <form action="/products/${product.id}">
-                            <button class="btn btn-outline-success" type="submit">More info</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </#list>
-    </div>
-    <a href="/products?size=${pages.getPageSize()}&page=${pages.pageNumber+1}" type="button">Next Page</a>
+    <#list orders as order>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item">${order.product.name}</li>
+            <li class="list-group-item">${order.product.description}</li>
+            <#if order.is_paid>
+                <li class="list-group-item">On the way</li>
+                <#else>
+                    <li class="list-group-item">Not paid yet</li>
+            </#if>
+        </ul>
+    </#list>
 </body>
 </html>

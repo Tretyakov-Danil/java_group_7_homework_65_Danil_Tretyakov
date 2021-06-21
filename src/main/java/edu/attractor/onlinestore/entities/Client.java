@@ -2,10 +2,12 @@ package edu.attractor.onlinestore.entities;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Data
 @Builder
@@ -31,7 +33,12 @@ public class Client implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority("FULL"));
+    }
+
+    @Override
+    public String getUsername() {
+        return getEmail();
     }
 
     @Override

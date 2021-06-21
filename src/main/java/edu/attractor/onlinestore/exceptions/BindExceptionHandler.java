@@ -27,7 +27,7 @@ public class BindExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     private ResponseEntity<?> handleRNF(ResourceNotFoundException ex){
-        return ResponseEntity.unprocessableEntity().body(ex.getCause().getMessage());
+        return ResponseEntity.unprocessableEntity().body(ex.getCause());
     }
 
 }

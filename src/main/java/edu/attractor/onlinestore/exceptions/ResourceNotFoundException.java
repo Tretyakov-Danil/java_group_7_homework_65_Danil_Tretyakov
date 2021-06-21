@@ -1,8 +1,10 @@
 package edu.attractor.onlinestore.exceptions;
 
-import java.io.FileNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-public class ResourceNotFoundException extends FileNotFoundException {
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException() {
     }
 

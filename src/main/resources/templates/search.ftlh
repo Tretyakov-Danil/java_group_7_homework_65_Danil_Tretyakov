@@ -20,7 +20,7 @@
                 </li>
                 <li class="nav-item">
                     <form action="/products/filter" method="get">
-                        <button class="btn active px-4 btn-outline-success" type="submit">Search</button>
+                        <button class="btn active px-4 mr-5 btn-outline-success" type="submit">Search</button>
                     </form>
                 </li>
             </ul>

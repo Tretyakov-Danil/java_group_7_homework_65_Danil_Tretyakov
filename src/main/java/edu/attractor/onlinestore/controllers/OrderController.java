@@ -1,8 +1,10 @@
 package edu.attractor.onlinestore.controllers;
 
 import edu.attractor.onlinestore.dtos.OrderDto;
+import edu.attractor.onlinestore.entities.Client;
 import edu.attractor.onlinestore.services.OrderService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,16 +25,18 @@ public class OrderController {
     }
 
     @GetMapping
-    public String showClientAllOrders(Model model, @PathVariable int clientId){
-        model.addAttribute("orders", this.orderService.getClientOrders(clientId).stream()
+    public String showClientAllOrders(Model model, Authentication auth){
+        Client client = (Client) auth.getPrincipal();
+        model.addAttribute("orders", this.orderService.getClientOrders(client.getId()).stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))
                 .collect(Collectors.toList()));
         return "orders";
     }
 
     @GetMapping("/basket")
-    public String showClientBasket(Model model, @PathVariable int clientId){
-        model.addAttribute("orders", this.orderService.getClientBasket(clientId).stream()
+    public String showClientBasket(Model model, Authentication auth){
+        Client client = (Client) auth.getPrincipal();
+        model.addAttribute("orders", this.orderService.getClientBasket(client.getId()).stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))
                 .collect(Collectors.toList()));
         return "orders";

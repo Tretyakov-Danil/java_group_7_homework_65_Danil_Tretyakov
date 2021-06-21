@@ -6,25 +6,23 @@
     <title>Online Store</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="../static/css/login.css">
 </head>
 <body>
     <div class="text-center mt-2">
-    <h2>Online Store</h2>
-    <h3 class="mt-3">Login</h3>
+        <h2 class="mt-3">Register</h2>
     </div>
     <div class="w-50 mx-auto">
-        <form action="/client/login" method="post">
+        <form action="/client/register" method="post" modelAttribute="clientDto">
+            <div class="mb-3">
+                <input type="text" class="form-control" name="username" aria-describedby="emailHelp" placeholder="Enter your username">
+            </div>
             <div class="mb-3">
                 <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter your email">
             </div>
             <div class="mb-3">
-                <input type="password" class="form-control" id="inputPassword" placeholder="Enter your password">
+                <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Enter your password">
             </div>
-            <button type="submit" class="btn btn-success login-button">Sign in</button>
-            <form action="/client/register" method="get">
-                <button type="submit" class="btn btn-success login-button mt-3">Register</button>
-            </form>
+            <button type="submit" class="btn btn-success login-button">Register</button>
         </form>
     </div>
 </body>
