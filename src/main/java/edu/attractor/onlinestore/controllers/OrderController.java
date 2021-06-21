@@ -22,7 +22,7 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/{clientId}")
+    @GetMapping
     public String showClientAllOrders(Model model, @PathVariable int clientId){
         model.addAttribute("orders", this.orderService.getClientOrders(clientId).stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))
@@ -30,7 +30,7 @@ public class OrderController {
         return "orders";
     }
 
-    @GetMapping("/basket/{clientId}")
+    @GetMapping("/basket")
     public String showClientBasket(Model model, @PathVariable int clientId){
         model.addAttribute("orders", this.orderService.getClientBasket(clientId).stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))

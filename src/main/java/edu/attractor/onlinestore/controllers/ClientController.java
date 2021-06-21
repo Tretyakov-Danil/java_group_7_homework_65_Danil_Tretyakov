@@ -7,10 +7,7 @@ import edu.attractor.onlinestore.exceptions.ResourceNotFoundException;
 import edu.attractor.onlinestore.exceptions.UserAlreadyExistException;
 import edu.attractor.onlinestore.services.ClientService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -40,13 +37,17 @@ public class ClientController {
                 .build();
         return this.clientService.saveClient(client).getId();
     }
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
 
     @PostMapping("/login")
-    public Integer login(@Valid @RequestBody ClientLoginDto clientDto) throws ResourceNotFoundException {
+    public String login(@Valid @RequestBody ClientLoginDto clientDto) throws ResourceNotFoundException {
         Optional<Client> findToLogin = this.clientService.
                 findByEmailAndPassword(clientDto.getEmail(), passwordEncoder.encode(clientDto.getPassword()));
         if (findToLogin.isEmpty()) throw new ResourceNotFoundException();
-        return findToLogin.get().getId();
+        return "login";
     }
 
 }

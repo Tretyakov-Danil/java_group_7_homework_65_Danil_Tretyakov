@@ -15,6 +15,9 @@
                 <button class="border-0 bg-transparent" style="font-size: 28px" type="submit">Navbar</button>
             </form>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item mr-4">
+                    <a class="nav-link active" aria-current="page" href="/orders">Orders</a>
+                </li>
                 <li class="nav-item">
                     <form action="/products/filter" method="get">
                         <button class="btn active px-4 btn-outline-success" type="submit">Search</button>
