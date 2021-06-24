@@ -2,16 +2,16 @@ package edu.attractor.onlinestore.controllers;
 
 import edu.attractor.onlinestore.dtos.OrderDto;
 import edu.attractor.onlinestore.entities.Client;
+import edu.attractor.onlinestore.entities.Order;
+import edu.attractor.onlinestore.services.ClientService;
 import edu.attractor.onlinestore.services.OrderService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 @RestController
@@ -19,9 +19,11 @@ import java.util.stream.Collectors;
 public class OrderController {
     private final OrderService orderService;
     private final ModelMapper modelMapper = new ModelMapper();
+    private final ClientService clientService;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, ClientService clientService) {
         this.orderService = orderService;
+        this.clientService = clientService;
     }
 
     @GetMapping
@@ -42,4 +44,24 @@ public class OrderController {
         return "orders";
     }
 
+    @PostMapping("/make")
+    public String makeOrder(Model model,
+                            @RequestBody OrderDto orderDto,
+                            @RequestParam int amount,
+                            Authentication auth,
+                            RedirectAttributes redirectAttrs){
+        Client client = (Client) auth.getPrincipal();
+        LocalDateTime presentTime = LocalDateTime.now();
+
+        Order newOrder = Order.builder()
+                .client(this.clientService.findByEmail(client.getEmail()).get())
+                .product(orderDto.getProduct())
+                .amount(amount)
+                .isPaid(false)
+                .dateOfOrder(presentTime)
+                .build();
+        this.orderService.saveNewOrder(newOrder);
+        return "redirect:/products/" + orderDto.getProduct().getId();
+
+    }
 }

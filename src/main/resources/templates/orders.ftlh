@@ -36,9 +36,9 @@
             <li class="list-group-item">${order.product.name}</li>
             <li class="list-group-item">${order.product.description}</li>
             <#if order.is_paid>
-                <li class="list-group-item">On the way</li>
+                <li class="list-group-item" style="color: green">On the way</li>
                 <#else>
-                    <li class="list-group-item">Not paid yet</li>
+                    <li class="list-group-item" style="color: darkred">Not paid yet</li>
             </#if>
         </ul>
     </#list>

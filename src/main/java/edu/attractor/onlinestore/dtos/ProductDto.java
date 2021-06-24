@@ -4,8 +4,6 @@ import edu.attractor.onlinestore.entities.Brand;
 import edu.attractor.onlinestore.enums.ProductType;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 
 @Data

@@ -15,10 +15,30 @@
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <form action="/products" method="get">
+                <button class="border-0 bg-transparent" style="font-size: 28px" type="submit">Navbar</button>
+            </form>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item mr-4">
+                    <a class="nav-link active" aria-current="page" href="/orders">Orders</a>
+                </li>
+                <li class="nav-item">
+                    <form action="/products/filter" method="get">
+                        <button class="btn active px-4 mr-5 btn-outline-success" type="submit">Search</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div class="text-center mt-2">
     <h2>Online Store</h2>
     <h3 class="mt-3">Login</h3>
     </div>
+    <#if error!false >
+        <p style="color:red">Неверные имя пользователя или пароль !</p>
+    </#if>
     <div class="w-50 mx-auto">
         <form action="/client/login" method="post">
             <#if _csrf??>

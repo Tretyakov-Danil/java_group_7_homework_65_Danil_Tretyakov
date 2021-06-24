@@ -51,11 +51,12 @@ public class ClientController {
     }
 
     @GetMapping("/login")
-    public String loginPage(){
+    public String loginPage(@RequestParam(required = false, defaultValue = "false") Boolean error, Model model){
+        model.addAttribute("error", error);
         return "login";
     }
 
-    @GetMapping("/invalidLogin")
+    @GetMapping("/invalid")
     public String invalidLoginPage(){
         return "invalidlogin";
     }

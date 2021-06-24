@@ -21,4 +21,8 @@ public class OrderService {
     public List<Order> getClientBasket(int clientId) {
         return this.orderRepository.findAllByClient_IdAndIsPaidFalse(clientId);
     }
+
+    public Order saveNewOrder(Order newOrder) {
+        return this.orderRepository.save(newOrder);
+    }
 }

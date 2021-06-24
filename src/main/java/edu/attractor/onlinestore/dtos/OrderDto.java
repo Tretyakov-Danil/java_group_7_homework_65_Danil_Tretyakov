@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class OrderDto {
     private int id;
     private Product product;
-    private Client client;
     private LocalDateTime dateOfOrder;
+    private int amount;
     private Boolean isPaid;
 }

@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder encoder(){
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(10);
     }
 
     private final DataSource dataSource;
@@ -35,9 +35,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 + " where email = ?";
 
         auth.jdbcAuthentication()
-                .dataSource(dataSource)
                 .usersByUsernameQuery(fetchUsersQuery)
-                .authoritiesByUsernameQuery(fetchRoleQuery);
+                .authoritiesByUsernameQuery(fetchRoleQuery)
+                .dataSource(dataSource)
+                .passwordEncoder(encoder());
 
     }
 
@@ -46,7 +47,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .loginPage("/client/login")
                 .defaultSuccessUrl("/products")
-                .failureUrl("/client/invalidLogin");
+                .failureUrl("/client/invalid")
+                .usernameParameter("email")
+                .passwordParameter("password");
 
         http.authorizeRequests()
                 .antMatchers("/orders")
@@ -56,6 +59,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .permitAll();
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 }

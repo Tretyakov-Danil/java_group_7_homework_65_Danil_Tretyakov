@@ -31,9 +31,17 @@ public class Client implements UserDetails {
     @Column(length = 60)
     private String email;
 
+    @Column(length = 20)
+    private String role;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("FULL"));
+        return List.of(new SimpleGrantedAuthority("USER"));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     @Override
