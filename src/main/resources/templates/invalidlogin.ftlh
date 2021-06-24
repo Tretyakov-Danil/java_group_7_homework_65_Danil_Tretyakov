@@ -8,9 +8,7 @@
 </head>
 <body>
     <div class="w-50 text-center">
-        <#list errors as error>
-            <p>${error.getField()} -> ${error.getDefaultMessage()}</p>
-        </#list>
+        <h3>Oops, something's gone wrong!</h3>
     </div>
     <div class="text-center">
         <form action="/client/login" method="get">

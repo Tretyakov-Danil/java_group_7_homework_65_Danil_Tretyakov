@@ -37,11 +37,6 @@ public class Client implements UserDetails {
     }
 
     @Override
-    public String getUsername() {
-        return getEmail();
-    }
-
-    @Override
     public boolean isAccountNonExpired() {
         return true;
     }

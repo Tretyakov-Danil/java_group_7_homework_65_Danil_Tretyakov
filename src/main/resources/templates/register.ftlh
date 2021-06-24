@@ -12,15 +12,18 @@
         <h2 class="mt-3">Register</h2>
     </div>
     <div class="w-50 mx-auto">
-        <form action="/client/register" method="post" modelAttribute="clientDto">
+        <form action="/client/register" method="post">
+            <#if _csrf??>
+                <input type="hidden" name="${(_csrf.parameterName)!'csrf'}" value="${(_csrf.token)!'--no-token--'}"/>
+            </#if>
             <div class="mb-3">
-                <input type="text" class="form-control" name="username" aria-describedby="emailHelp" placeholder="Enter your username">
+                <input type="text" class="form-control" name="username" aria-describedby="emailHelp" placeholder="Enter your username" value="${(dto.name)!''}">
             </div>
             <div class="mb-3">
-                <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter your email">
+                <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter your email" value="${(dto.email)!''}">
             </div>
             <div class="mb-3">
-                <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Enter your password">
+                <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Enter your password" value="">
             </div>
             <button type="submit" class="btn btn-success login-button">Register</button>
         </form>

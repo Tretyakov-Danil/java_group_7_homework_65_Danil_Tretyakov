@@ -36,15 +36,9 @@ public class ClientService implements UserDetailsService {
         return this.clientRepository.save(client);
     }
 
-    public Optional<Client> findByEmailAndPassword(ClientLoginDto clientLoginDto){
-        int i = 1;
-        return this.clientRepository.findByEmailAndPassword(clientLoginDto.getEmail(),
-                this.passwordEncoder.encode(clientLoginDto.getPassword()));
-    }
-
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return  clientRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", email)));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return clientRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", username)));
     }
 }

@@ -43,7 +43,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin().loginPage("/client/login");
+        http.formLogin()
+                .loginPage("/client/login")
+                .defaultSuccessUrl("/products")
+                .failureUrl("/client/invalidLogin");
+
+        http.authorizeRequests()
+                .antMatchers("/orders")
+                .authenticated();
 
         http.authorizeRequests()
                 .anyRequest()
