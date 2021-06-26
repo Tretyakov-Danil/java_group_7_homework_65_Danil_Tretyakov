@@ -24,23 +24,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final DataSource dataSource;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        String fetchUsersQuery = "select email, password, enabled"
-                + " from clients"
-                + " where email = ?";
-
-        String fetchRoleQuery = "select email, role"
-                + " from clients"
-                + " where email = ?";
-
-        auth.jdbcAuthentication()
-                .usersByUsernameQuery(fetchUsersQuery)
-                .authoritiesByUsernameQuery(fetchRoleQuery)
-                .dataSource(dataSource)
-                .passwordEncoder(encoder());
-
-    }
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        String fetchUsersQuery = "select email, password, enabled"
+//                + " from clients"
+//                + " where email = ?";
+//
+//        String fetchRoleQuery = "select email, role"
+//                + " from clients"
+//                + " where email = ?";
+//
+//        auth.jdbcAuthentication()
+//                .usersByUsernameQuery(fetchUsersQuery)
+//                .authoritiesByUsernameQuery(fetchRoleQuery)
+//                .dataSource(dataSource)
+//                .passwordEncoder(encoder());
+//
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

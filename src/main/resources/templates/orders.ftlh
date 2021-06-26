@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <style type="text/css">
+        .list-item{
+            width: 20%;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -31,14 +36,24 @@
             </ul>
         </div>
     </nav>
+
+    <ul class="list-group list-group-horizontal w-75 mx-auto">
+        <li class="list-group-item list-item">Name</li>
+        <li class="list-group-item list-item">Description</li>
+        <li class="list-group-item list-item">Amount</li>
+        <li class="list-group-item list-item">Total price</li>
+        <li class="list-group-item list-item">Status</li>
+    </ul>
     <#list orders as order>
-        <ul class="list-group list-group-horizontal">
-            <li class="list-group-item">${order.product.name}</li>
-            <li class="list-group-item">${order.product.description}</li>
-            <#if order.is_paid>
-                <li class="list-group-item" style="color: green">On the way</li>
+        <ul class="list-group list-group-horizontal w-75 mx-auto">
+            <li class="list-group-item list-item">${order.product.name}</li>
+            <li class="list-group-item list-item">${order.product.description}</li>
+            <li class="list-group-item list-item">${order.amount}</li>
+            <li class="list-group-item list-item">${order.amount * order.product.price}</li>
+            <#if order.isPaid>
+                <li class="list-group-item list-item" style="color: green">On the way</li>
                 <#else>
-                    <li class="list-group-item" style="color: darkred">Not paid yet</li>
+                    <li class="list-group-item list-item" style="color: darkred">Not paid yet</li>
             </#if>
         </ul>
     </#list>

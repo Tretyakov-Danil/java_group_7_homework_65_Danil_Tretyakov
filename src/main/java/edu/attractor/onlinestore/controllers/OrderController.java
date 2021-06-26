@@ -7,6 +7,7 @@ import edu.attractor.onlinestore.services.ClientService;
 import edu.attractor.onlinestore.services.OrderService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -14,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
-@RestController
+@Controller
 @RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;

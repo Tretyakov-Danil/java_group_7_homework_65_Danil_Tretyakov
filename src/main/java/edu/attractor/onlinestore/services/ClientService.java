@@ -1,9 +1,7 @@
 package edu.attractor.onlinestore.services;
 
-import edu.attractor.onlinestore.dtos.ClientLoginDto;
 import edu.attractor.onlinestore.dtos.ClientRegisterDto;
 import edu.attractor.onlinestore.entities.Client;
-import edu.attractor.onlinestore.exceptions.ResourceNotFoundException;
 import edu.attractor.onlinestore.repositories.ClientRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,7 +35,7 @@ public class ClientService implements UserDetailsService {
     }
 
     @Override
-    public Client loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return clientRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", username)));
     }
