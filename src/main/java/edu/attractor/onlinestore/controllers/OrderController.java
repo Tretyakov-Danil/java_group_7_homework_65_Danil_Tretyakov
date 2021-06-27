@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -29,10 +30,9 @@ public class OrderController {
 
     @GetMapping
     public String showClientAllOrders(Model model, Authentication auth){
-        Client client = (Client) auth.getPrincipal();
-        model.addAttribute("client", client);
-        model.addAttribute("isOnline", true);
-        model.addAttribute("orders", this.orderService.getClientOrders(client.getId()).stream()
+        Optional<Authentication> authOptional = Optional.of(auth);
+        model.addAttribute("orders", this.orderService.getClientOrders(
+                this.clientService.isClientOnline(authOptional, model).getId()).stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))
                 .collect(Collectors.toList()));
         return "orders";
@@ -40,10 +40,9 @@ public class OrderController {
 
     @GetMapping("/basket")
     public String showClientBasket(Model model, Authentication auth){
-        Client client = (Client) auth.getPrincipal();
-        model.addAttribute("client", client);
-        model.addAttribute("isOnline", true);
-        model.addAttribute("orders", this.orderService.getClientBasket(client.getId()).stream()
+        Optional<Authentication> authOptional = Optional.of(auth);
+        model.addAttribute("orders", this.orderService.getClientBasket(
+                this.clientService.isClientOnline(authOptional, model).getId()).stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))
                 .collect(Collectors.toList()));
         return "orders";

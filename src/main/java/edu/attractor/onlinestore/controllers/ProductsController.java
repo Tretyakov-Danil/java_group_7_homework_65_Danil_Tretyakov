@@ -31,7 +31,8 @@ public class ProductsController {
 
     @GetMapping
     public String getProducts(Model model, @PageableDefault(size = 4) Pageable pageable, Authentication auth){
-        this.clientService.isClientOnline(auth, model);
+        Optional<Authentication> authOptional = Optional.ofNullable(auth);
+        this.clientService.isClientOnline(authOptional, model);
         Page<Product> products = this.productService.findAll(pageable);
         model.addAttribute("products", products.getContent().stream()
                 .map(product -> modelMapper.map(product, ProductDto.class)).collect(Collectors.toList()));
@@ -41,7 +42,8 @@ public class ProductsController {
 
     @GetMapping("/{productId}")
     public String getInfoAboutProduct(Model model, @PathVariable Integer productId, Authentication auth) throws FileNotFoundException{
-        this.clientService.isClientOnline(auth, model);
+        Optional<Authentication> authOptional = Optional.ofNullable(auth);
+        this.clientService.isClientOnline(authOptional, model);
         Optional<Product> product = this.productService.getProductInfo(productId);
         if (product.isEmpty()) throw new FileNotFoundException(String.format( "Product with productId %s not found", productId));
         model.addAttribute("product", modelMapper.map(product.get(), ProductDto.class));
@@ -50,19 +52,22 @@ public class ProductsController {
 
     @GetMapping("/filter")
     public String getPageForSearch(Model model, Authentication auth){
-        this.clientService.isClientOnline(auth, model);
+        Optional<Authentication> authOptional = Optional.ofNullable(auth);
+        this.clientService.isClientOnline(authOptional, model);
         model.addAttribute("products", List.of());
         return "search";
     }
 
     @GetMapping("/filter/result")
     public String findWithFilter(Model model,@ModelAttribute("filter") FilterDto filter, Authentication auth){
-        this.clientService.isClientOnline(auth, model);
+        Optional<Authentication> authOptional = Optional.ofNullable(auth);
+        this.clientService.isClientOnline(authOptional, model);
         List<ProductDto> products = this.productService.findAllWithFilter(filter).stream()
                 .map(product -> modelMapper.map(product, ProductDto.class))
                 .collect(Collectors.toList());
         model.addAttribute("products", products);
         return "search";
     }
+
 
 }

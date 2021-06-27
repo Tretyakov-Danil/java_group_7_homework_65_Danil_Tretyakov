@@ -36,13 +36,15 @@ public class ClientService implements UserDetailsService {
         return this.clientRepository.save(client);
     }
 
-    public void isClientOnline(Authentication auth, Model model){
-        Client client = (Client) auth.getPrincipal();
-        if (client == null){
+    public Client isClientOnline(Optional<Authentication> auth, Model model){
+        if (auth.isEmpty()){
             model.addAttribute("isOnline", false);
+            return null;
         }
-        model.addAttribute("client", client);
+        Client client = (Client) auth.get().getPrincipal();
+        model.addAttribute("username", this.clientRepository.findByEmail(client.getEmail()).get().getUsername());
         model.addAttribute("isOnline", true);
+        return client;
     }
 
     @Override

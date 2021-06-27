@@ -9,23 +9,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
         <div class="container-fluid">
             <form action="/products" method="get">
-                <button class="border-0 bg-transparent" style="font-size: 28px" type="submit">Navbar</button>
+                <button class="border-0 bg-transparent" style="font-size: 28px" type="submit">ONLINE STORE</button>
             </form>
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item mr-4">
-                    <a href="/orders"><i class="fas fa-shopping-cart"></i></a>
-                </li>
-                <li class="nav-item">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 mr-3">
+                <li class="nav-item mx-5">
                     <form action="/products/filter" method="get">
                         <button class="btn active px-4 mr-5 btn-outline-success" type="submit">Search</button>
                     </form>
                 </li>
+                <li class="nav-item mr-4">
+                    <a href="/orders"><i class="fas fa-shopping-cart mt-1" style="font-size: 24px"></i></a>
+                </li>
                 <#if isOnline>
-                    <li class="nav-item">
-                        ${client.username}
+                    <li class="nav-item mr-3 my-auto">
+                        ${username}
                     </li>
                     <#if _csrf??>
                         <li class="nav-item">
@@ -49,20 +49,22 @@
             </ul>
         </div>
     </nav>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 mx-auto mt-5">
+    <div class="row mx-auto mt-5 justify-content-center">
         <#list products as product>
-            <div class="card mb-3 mx-2" style="max-width: 540px;">
-                <div class="col-md-4">
-                    <img src="..." alt="Product's photo">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h4 class="card-title">${product.brand.name}</h4>
-                        <h5 class="card-title">${product.name}</h5>
-                        <p class="card-text">${product.description}</p>
-                        <form action="/products/${product.id}">
-                            <button class="btn btn-outline-success" type="submit">More info</button>
-                        </form>
+            <div class="card mb-3 mx-2 col-sm-12 col-md-5 col-lg-5 col-xl-3" style="max-width: 540px">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="/images/${product.imagePath}" alt="Product's photo" class="img-fluid">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">${product.brand.name}</h4>
+                            <h5 class="card-title">${product.name}</h5>
+                            <p class="card-text">${product.description}</p>
+                            <form action="/products/${product.id}">
+                                <button class="btn btn-outline-success" type="submit">More info</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

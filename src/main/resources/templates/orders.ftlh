@@ -17,19 +17,19 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <form action="/products" method="get">
-                <button class="border-0 bg-transparent" style="font-size: 28px" type="submit">Navbar</button>
+                <button class="border-0 bg-transparent" style="font-size: 28px" type="submit">ONLINE STORE</button>
             </form>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item mr-4">
-                    <a href="/orders"><i class="fas fa-shopping-cart"></i></a>
+                    <a href="/orders"><i class="fas fa-shopping-cart mt-1" style="font-size: 24px"></i></a>
                 </li>
                 <li class="nav-item">
                     <form action="/products/filter" method="get">
                         <button class="btn active px-4 mr-5 btn-outline-success" type="submit">Search</button>
                     </form>
                 </li>
-                <li class="nav-item">
-                    ${client.username}
+                <li class="nav-item mr-3 my-auto">
+                    ${username}
                 </li>
                 <#if _csrf??>
                     <li class="nav-item">
