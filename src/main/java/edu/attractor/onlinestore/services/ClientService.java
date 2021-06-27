@@ -3,11 +3,13 @@ package edu.attractor.onlinestore.services;
 import edu.attractor.onlinestore.dtos.ClientRegisterDto;
 import edu.attractor.onlinestore.entities.Client;
 import edu.attractor.onlinestore.repositories.ClientRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.Optional;
 
@@ -32,6 +34,15 @@ public class ClientService implements UserDetailsService {
                 .password(this.passwordEncoder.encode(clientDto.getPassword()))
                 .build();
         return this.clientRepository.save(client);
+    }
+
+    public void isClientOnline(Authentication auth, Model model){
+        Client client = (Client) auth.getPrincipal();
+        if (client == null){
+            model.addAttribute("isOnline", false);
+        }
+        model.addAttribute("client", client);
+        model.addAttribute("isOnline", true);
     }
 
     @Override

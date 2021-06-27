@@ -21,7 +21,7 @@
             </form>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item mr-4">
-                    <a class="nav-link active" aria-current="page" href="/orders">Orders</a>
+                    <a href="/orders"><i class="fas fa-shopping-cart"></i></a>
                 </li>
                 <li class="nav-item">
                     <form action="/products/filter" method="get">
@@ -29,10 +29,22 @@
                     </form>
                 </li>
                 <li class="nav-item">
-                    <form action="/client/login" method="get">
-                        <button class="btn active px-4 btn-outline-success" type="submit">Sign in</button>
-                    </form>
+                    ${client.username}
                 </li>
+                <#if _csrf??>
+                    <li class="nav-item">
+                        <form action="/logout" method="post">
+                            <input type="hidden"
+                                   name="${(_csrf.parameterName)!'csrf'}"
+                                   value="${(_csrf.token)!'--no-token--'}">
+                            <button class="btn btn-outline-success active px-4" type="submit">Logout</button>
+                        </form>
+                    </li>
+                <#else>
+                    <li class="nav-item">
+                        <a href="/logout" class="btn btn-outline-success active px-4">Logout</a>
+                    </li>
+                </#if>
             </ul>
         </div>
     </nav>

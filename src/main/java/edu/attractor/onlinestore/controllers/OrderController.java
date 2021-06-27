@@ -30,6 +30,8 @@ public class OrderController {
     @GetMapping
     public String showClientAllOrders(Model model, Authentication auth){
         Client client = (Client) auth.getPrincipal();
+        model.addAttribute("client", client);
+        model.addAttribute("isOnline", true);
         model.addAttribute("orders", this.orderService.getClientOrders(client.getId()).stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))
                 .collect(Collectors.toList()));
@@ -39,6 +41,8 @@ public class OrderController {
     @GetMapping("/basket")
     public String showClientBasket(Model model, Authentication auth){
         Client client = (Client) auth.getPrincipal();
+        model.addAttribute("client", client);
+        model.addAttribute("isOnline", true);
         model.addAttribute("orders", this.orderService.getClientBasket(client.getId()).stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))
                 .collect(Collectors.toList()));

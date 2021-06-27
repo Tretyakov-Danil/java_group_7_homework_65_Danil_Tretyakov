@@ -15,7 +15,7 @@
             </form>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item mr-4">
-                    <a class="nav-link active" aria-current="page" href="/orders">Orders</a>
+                    <a href="/orders"><i class="fas fa-shopping-cart"></i></a>
                 </li>
                 <li class="nav-item">
                     <form action="/products/filter" method="get">

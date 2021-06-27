@@ -51,8 +51,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("email")
                 .passwordParameter("password");
 
+        http.logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/products")
+                .invalidateHttpSession(true)
+                .clearAuthentication(true);
+
         http.authorizeRequests()
-                .antMatchers("/orders")
+                .antMatchers("/orders/**")
                 .authenticated();
 
         http.authorizeRequests()
