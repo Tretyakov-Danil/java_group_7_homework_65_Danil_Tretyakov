@@ -2,7 +2,6 @@ package edu.attractor.onlinestore.controllers;
 
 import edu.attractor.onlinestore.dtos.FilterDto;
 import edu.attractor.onlinestore.dtos.ProductDto;
-import edu.attractor.onlinestore.entities.Client;
 import edu.attractor.onlinestore.entities.Product;
 import edu.attractor.onlinestore.services.ClientService;
 import edu.attractor.onlinestore.services.ProductService;

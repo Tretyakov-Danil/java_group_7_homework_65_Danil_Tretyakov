@@ -21,7 +21,7 @@
                     </form>
                 </li>
                 <li class="nav-item mr-4">
-                    <a href="/orders"><i class="fas fa-shopping-cart mt-1" style="font-size: 24px"></i></a>
+                    <a href="/orders/basket"><i class="fas fa-shopping-cart mt-1" style="font-size: 24px"></i></a>
                 </li>
                 <#if isOnline>
                     <li class="nav-item mr-3 my-auto">

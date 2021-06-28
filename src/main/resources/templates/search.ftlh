@@ -16,7 +16,7 @@
             </form>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item mr-4">
-                    <a href="/orders"><i class="fas fa-shopping-cart mt-1" style="font-size: 24px"></i></a>
+                    <a href="/orders/basket"><i class="fas fa-shopping-cart mt-1" style="font-size: 24px"></i></a>
                 </li>
                 <li class="nav-item">
                     <form action="/products/filter" method="get">

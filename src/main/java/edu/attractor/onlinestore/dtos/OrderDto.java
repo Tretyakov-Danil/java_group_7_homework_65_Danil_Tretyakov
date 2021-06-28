@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class OrderDto {
     private int id;
-    private Product product;
+    private ProductDto product;
     private LocalDateTime dateOfOrder;
     private int amount;
     private Boolean isPaid;

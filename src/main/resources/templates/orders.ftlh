@@ -21,7 +21,7 @@
             </form>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item mr-4">
-                    <a href="/orders"><i class="fas fa-shopping-cart mt-1" style="font-size: 24px"></i></a>
+                    <a href="/orders/basket"><i class="fas fa-shopping-cart mt-1" style="font-size: 24px"></i></a>
                 </li>
                 <li class="nav-item">
                     <form action="/products/filter" method="get">
@@ -49,7 +49,8 @@
         </div>
     </nav>
 
-    <ul class="list-group list-group-horizontal w-75 mx-auto">
+    <div class="w-75 mx-auto">
+    <ul class="list-group list-group-horizontal">
         <li class="list-group-item list-item">Name</li>
         <li class="list-group-item list-item">Description</li>
         <li class="list-group-item list-item">Amount</li>
@@ -57,7 +58,7 @@
         <li class="list-group-item list-item">Status</li>
     </ul>
     <#list orders as order>
-        <ul class="list-group list-group-horizontal w-75 mx-auto">
+        <ul class="list-group list-group-horizontal">
             <li class="list-group-item list-item">${order.product.name}</li>
             <li class="list-group-item list-item">${order.product.description}</li>
             <li class="list-group-item list-item">${order.amount}</li>
@@ -69,5 +70,7 @@
             </#if>
         </ul>
     </#list>
+    <a href="/orders" class="btn btn-success">Show all</a>
+    </div>
 </body>
 </html>

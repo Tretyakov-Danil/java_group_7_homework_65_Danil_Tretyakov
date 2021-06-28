@@ -1,11 +1,20 @@
 package edu.attractor.onlinestore.controllers;
 
 import edu.attractor.onlinestore.dtos.OrderDto;
+import edu.attractor.onlinestore.dtos.ProductDto;
 import edu.attractor.onlinestore.entities.Client;
 import edu.attractor.onlinestore.entities.Order;
+import edu.attractor.onlinestore.entities.Product;
+import edu.attractor.onlinestore.exceptions.ResourceNotFoundException;
+import edu.attractor.onlinestore.exceptions.UserNotFoundException;
 import edu.attractor.onlinestore.services.ClientService;
 import edu.attractor.onlinestore.services.OrderService;
+import edu.attractor.onlinestore.services.ProductService;
+import jdk.jfr.ContentType;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,15 +27,12 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/orders")
+@RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
     private final ModelMapper modelMapper = new ModelMapper();
     private final ClientService clientService;
-
-    public OrderController(OrderService orderService, ClientService clientService) {
-        this.orderService = orderService;
-        this.clientService = clientService;
-    }
+    private final ProductService productService;
 
     @GetMapping
     public String showClientAllOrders(Model model, Authentication auth){
@@ -48,24 +54,26 @@ public class OrderController {
         return "orders";
     }
 
-    @PostMapping("/make")
-    public String makeOrder(Model model,
-                            @RequestBody OrderDto orderDto,
+    @PostMapping(value = "/make")
+    public String makeOrder(@RequestParam int productId,
                             @RequestParam int amount,
-                            Authentication auth,
-                            RedirectAttributes redirectAttrs){
+                            Authentication auth){
         Client client = (Client) auth.getPrincipal();
         LocalDateTime presentTime = LocalDateTime.now();
-
+        Product product = this.productService.getProductInfo(productId)
+                .orElseThrow(ResourceNotFoundException::new);
         Order newOrder = Order.builder()
-                .client(this.clientService.findByEmail(client.getEmail()).get())
-                .product(orderDto.getProduct())
+                .client(this.clientService.findByEmail(client.getEmail()).orElseThrow(UserNotFoundException::new))
+                .product(product)
                 .amount(amount)
                 .isPaid(false)
                 .dateOfOrder(presentTime)
                 .build();
         this.orderService.saveNewOrder(newOrder);
-        return "redirect:/products/" + orderDto.getProduct().getId();
+
+        this.productService.changeAmountOfProduct(productId, amount);
+
+        return "redirect:/products/" + product.getId();
 
     }
 }

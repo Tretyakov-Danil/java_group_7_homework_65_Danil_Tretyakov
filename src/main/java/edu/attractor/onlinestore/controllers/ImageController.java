@@ -23,7 +23,7 @@ public class ImageController {
 
     @GetMapping(name = "/{image}", produces = MediaType.IMAGE_JPEG_VALUE)
     public String getImage(@PathVariable String image) throws IOException {
-        //Write this the absolute root to the images
+        //Write here the absolute root to the images
         String value = new String(Base64.encodeBase64(Files.readAllBytes(Paths.get("/Users/danil/Desktop/Программирование/classworks/java_group_7_homework_65_Danil_Tretyakov/src/main/resources/static/images/" + image))));
         Map<String, String> json = new HashMap<>();
         json.put("key", value);
