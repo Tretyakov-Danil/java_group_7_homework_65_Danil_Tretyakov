@@ -66,4 +66,8 @@ public class ProductService {
     public void changeAmountOfProduct(int productId, int amount) {
         this.productRepository.changeAmount(productId, amount);
     }
+
+    public void addAmountToProduct(int productId, int amount) {
+        this.productRepository.addAmount(productId, amount);
+    }
 }

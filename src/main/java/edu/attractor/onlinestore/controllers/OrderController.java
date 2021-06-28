@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -40,6 +41,7 @@ public class OrderController {
         model.addAttribute("orders", this.orderService.getClientOrders(
                 this.clientService.isClientOnline(authOptional, model).getId()).stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))
+                .sorted(Comparator.comparing(OrderDto::getDateOfOrder).reversed())
                 .collect(Collectors.toList()));
         return "orders";
     }
@@ -50,6 +52,7 @@ public class OrderController {
         model.addAttribute("orders", this.orderService.getClientBasket(
                 this.clientService.isClientOnline(authOptional, model).getId()).stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))
+                .sorted(Comparator.comparing(OrderDto::getDateOfOrder).reversed())
                 .collect(Collectors.toList()));
         return "orders";
     }
@@ -69,11 +72,32 @@ public class OrderController {
                 .isPaid(false)
                 .dateOfOrder(presentTime)
                 .build();
+
         this.orderService.saveNewOrder(newOrder);
 
         this.productService.changeAmountOfProduct(productId, amount);
-
         return "redirect:/products/" + product.getId();
 
+    }
+
+
+    @DeleteMapping("/delete")
+    public String deleteOrderFromBasket(RedirectAttributes redirAttrs,
+                                        Authentication auth,
+                                        @RequestParam int orderId,
+                                        @RequestParam int productId,
+                                        @RequestParam int amount){
+        this.orderService.deleteOrder(orderId);
+
+        this.productService.addAmountToProduct(productId, amount);
+
+        Optional<Authentication> authOptional = Optional.of(auth);
+        redirAttrs.addFlashAttribute("orders", this.orderService.getClientBasket(
+                this.clientService.isClientOnline(authOptional, redirAttrs).getId()).stream()
+                .map(order -> modelMapper.map(order, OrderDto.class))
+                .sorted(Comparator.comparing(OrderDto::getDateOfOrder).reversed())
+                .collect(Collectors.toList()));
+
+        return "redirect:/orders";
     }
 }

@@ -9,7 +9,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <style type="text/css">
         .list-item{
+            width: 14%;
+        }
+        .descr{
             width: 20%;
+            padding: 12px 5px;
+        }
+        .amount{
+            width: 10%;
+            padding: 12px 5px;
+            text-align: center;
         }
     </style>
 </head>
@@ -49,28 +58,46 @@
         </div>
     </nav>
 
-    <div class="w-75 mx-auto">
+    <div class="mx-auto" style="width: 85%">
     <ul class="list-group list-group-horizontal">
         <li class="list-group-item list-item">Name</li>
-        <li class="list-group-item list-item">Description</li>
-        <li class="list-group-item list-item">Amount</li>
+        <li class="list-group-item descr">Description</li>
+        <li class="list-group-item amount">Amount</li>
         <li class="list-group-item list-item">Total price</li>
+        <li class="list-group-item list-item">Date of order</li>
         <li class="list-group-item list-item">Status</li>
+        <li class="list-group-item border-0 list-item"></li>
     </ul>
     <#list orders as order>
         <ul class="list-group list-group-horizontal">
-            <li class="list-group-item list-item">${order.product.name}</li>
-            <li class="list-group-item list-item">${order.product.description}</li>
-            <li class="list-group-item list-item">${order.amount}</li>
+            <li class="list-group-item list-item" style="padding: 12px 5px">${order.product.name}</li>
+            <li class="list-group-item descr">${order.product.description}</li>
+            <li class="list-group-item amount">${order.amount}</li>
             <li class="list-group-item list-item">${order.amount * order.product.price}</li>
+            <li class="list-group-item list-item">
+                ${order.dateOfOrder.dayOfMonth}.<#if order.dateOfOrder.monthValue<10>0${order.dateOfOrder.monthValue}<#else>${order.dateOfOrder.monthValue}</#if>.${order.dateOfOrder.year}
+                <p>${order.dateOfOrder.hour}:${order.dateOfOrder.minute}</p>
+            </li>
             <#if order.isPaid>
                 <li class="list-group-item list-item" style="color: green">On the way</li>
                 <#else>
-                    <li class="list-group-item list-item" style="color: darkred">Not paid yet</li>
+                    <li class="list-group-item list-item" style="color: darkred">Not paid</li>
+                    <li class="list-group-item list-item border-0">
+                        <form action="/orders/delete" method="post">
+                            <#if _csrf??>
+                                <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}" value="${(_csrf.token)!'csrf-token'}">
+                            </#if>
+                            <input type="hidden" name="_method" value="delete" />
+                            <input hidden type="text" name="orderId" value="${order.id}">
+                            <input hidden type="text" name="productId" value="${order.product.id}">
+                            <input hidden type="text" name="amount" value="${order.amount}">
+                        <button type="submit" class="btn btn-danger ml-3 my-auto">Delete</button>
+                        </form>
+                    </li>
             </#if>
         </ul>
     </#list>
-    <a href="/orders" class="btn btn-success">Show all</a>
+    <a href="/orders" class="btn btn-success mt-3">Show all</a>
     </div>
 </body>
 </html>
