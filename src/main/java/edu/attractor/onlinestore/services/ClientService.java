@@ -58,6 +58,7 @@ public class ClientService implements UserDetailsService {
         Client client = this.clientRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         String newPassword = createRandomPassword();
         client.setPassword(passwordEncoder.encode(newPassword));
+        this.clientRepository.save(client);
         return newPassword;
     }
 

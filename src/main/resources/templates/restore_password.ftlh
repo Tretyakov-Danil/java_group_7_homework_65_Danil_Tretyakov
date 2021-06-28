@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
 </head>
 <body>
-    <div class="w-50 mx-auto">
+    <div class="w-50 mx-auto text-center">
         <h3 class="mt-3">Password recovery</h3>
-        <#if email??>
-            <form action="/client/restore" method="post">
+        <#if !email??>
+            <form action="/client/restore" method="post" class="mb-3">
                 <#if _csrf??>
                     <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}" value="${(_csrf.token)!'csrf-token'}">
                 </#if>
@@ -22,12 +22,13 @@
                 <button type="submit" class="btn btn-success login-button mt-2">Get new password</button>
             </form>
         <#else>
-            <div style="font-size: 20px"></div>
-            <p>Email: ${email}</p>
-            <hr>
-            <p>Remember your new password:</p>
-            <p style="font-size: 24px; font-weight: bold">${password}</p>
-            <span>Never give anyone your password</span>
+            <div class="mb-3" style="font-size: 18px">
+                <p>Email: ${email}</p>
+                <hr>
+                <p>Remember your new password:</p>
+                <p style="font-size: 24px; font-weight: bold">${password}</p>
+                <span>Never give anyone your password</span>
+            </div>
         </#if>
         <div class="text-center">
             <a href="/client/login" class="btn btn-success">Back to login</a>
