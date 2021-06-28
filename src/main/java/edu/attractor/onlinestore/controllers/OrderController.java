@@ -81,7 +81,7 @@ public class OrderController {
     }
 
 
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public String deleteOrderFromBasket(RedirectAttributes redirAttrs,
                                         Authentication auth,
                                         @RequestParam int orderId,

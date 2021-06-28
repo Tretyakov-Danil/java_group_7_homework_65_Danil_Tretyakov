@@ -1,6 +1,7 @@
 package edu.attractor.onlinestore.controllers;
 
 import edu.attractor.onlinestore.dtos.FilterDto;
+import edu.attractor.onlinestore.dtos.OrderDto;
 import edu.attractor.onlinestore.dtos.ProductDto;
 import edu.attractor.onlinestore.entities.Product;
 import edu.attractor.onlinestore.services.ClientService;
@@ -15,7 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,7 +32,10 @@ public class ProductsController {
     private final ClientService clientService;
 
     @GetMapping
-    public String getProducts(Model model, @PageableDefault(size = 4) Pageable pageable, Authentication auth){
+    public String getProducts(Model model, @PageableDefault(size = 4) Pageable pageable, Authentication auth, HttpSession session){
+        if (session.getAttribute("cart") == null){
+            session.setAttribute("cart", new ArrayList<>());
+        }
         Optional<Authentication> authOptional = Optional.ofNullable(auth);
         this.clientService.isClientOnline(authOptional, model);
         Page<Product> products = this.productService.findAll(pageable);

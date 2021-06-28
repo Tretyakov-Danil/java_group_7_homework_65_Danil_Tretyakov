@@ -2,6 +2,7 @@ package edu.attractor.onlinestore.services;
 
 import edu.attractor.onlinestore.dtos.ClientRegisterDto;
 import edu.attractor.onlinestore.entities.Client;
+import edu.attractor.onlinestore.exceptions.UserNotFoundException;
 import edu.attractor.onlinestore.repositories.ClientRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,5 +52,16 @@ public class ClientService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return clientRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", username)));
+    }
+
+    public String createNewPassword(String email) {
+        Client client = this.clientRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        String newPassword = createRandomPassword();
+        client.setPassword(passwordEncoder.encode(newPassword));
+        return newPassword;
+    }
+
+    private String createRandomPassword() {
+        return "super_password";
     }
 }

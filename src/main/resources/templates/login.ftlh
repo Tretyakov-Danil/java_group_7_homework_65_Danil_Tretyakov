@@ -50,7 +50,8 @@
             <div class="mb-3">
                 <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Enter your password" value="">
             </div>
-            <button type="submit" class="btn btn-success login-button">Sign in</button>
+            <a href="/client/restore">Forgot your password?</a>
+            <button type="submit" class="btn btn-success login-button mt-2">Sign in</button>
         </form>
         <div class="mt-3">
             <form action="/client/register" method="get">

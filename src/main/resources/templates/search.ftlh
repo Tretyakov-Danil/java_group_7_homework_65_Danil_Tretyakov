@@ -23,24 +23,29 @@
                         <button class="btn active px-4 mr-5 btn-outline-success" type="submit">Search</button>
                     </form>
                 </li>
-                <li class="nav-item mr-3 my-auto">
-                    ${username}
-                </li>
-                <#if _csrf??>
-                    <li class="nav-item">
-                        <form action="/logout" method="post">
-                            <input type="hidden"
-                                   name="${(_csrf.parameterName)!'csrf'}"
-                                   value="${(_csrf.token)!'--no-token--'}">
-                            <button class="btn btn-outline-success active px-4" type="submit">Logout</button>
-                        </form>
+                <#if isOnline>
+                    <li class="nav-item mr-3 my-auto">
+                        ${username}
                     </li>
+                    <#if _csrf??>
+                        <li class="nav-item">
+                            <form action="/logout" method="post">
+                                <input type="hidden"
+                                       name="${(_csrf.parameterName)!'csrf'}"
+                                       value="${(_csrf.token)!'--no-token--'}">
+                                <button class="btn btn-outline-success active px-4" type="submit">Logout</button>
+                            </form>
+                        </li>
+                    <#else>
+                        <li class="nav-item">
+                            <a href="/logout" class="btn btn-outline-success active px-4">Logout</a>
+                        </li>
+                    </#if>
                 <#else>
                     <li class="nav-item">
-                        <a href="/logout" class="btn btn-outline-success active px-4">Logout</a>
+                        <a href="/client/login" class="btn active px-4 btn-outline-success">Sign in</a>
                     </li>
                 </#if>
-            </ul>
         </div>
     </nav>
 

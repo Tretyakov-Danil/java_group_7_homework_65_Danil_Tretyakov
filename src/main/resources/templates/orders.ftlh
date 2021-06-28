@@ -29,13 +29,13 @@
                 <button class="border-0 bg-transparent" style="font-size: 28px" type="submit">ONLINE STORE</button>
             </form>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item mr-4">
-                    <a href="/orders/basket"><i class="fas fa-shopping-cart mt-1" style="font-size: 24px"></i></a>
-                </li>
-                <li class="nav-item">
+                <li class="nav-item mx-5">
                     <form action="/products/filter" method="get">
                         <button class="btn active px-4 mr-5 btn-outline-success" type="submit">Search</button>
                     </form>
+                </li>
+                <li class="nav-item mr-4">
+                    <a href="/orders/basket"><i class="fas fa-shopping-cart mt-1" style="font-size: 24px"></i></a>
                 </li>
                 <li class="nav-item mr-3 my-auto">
                     ${username}

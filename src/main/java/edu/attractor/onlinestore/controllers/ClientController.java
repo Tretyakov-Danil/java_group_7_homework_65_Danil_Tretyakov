@@ -60,4 +60,16 @@ public class ClientController {
     public String invalidLoginPage(){
         return "invalidlogin";
     }
+
+    @GetMapping("/restore")
+    public String restorePasswordPage(){
+        return "restore_password";
+    }
+
+    @PostMapping("/restore")
+    public String restorePassword(Model model, @RequestParam String email){
+        model.addAttribute("email", email);
+        model.addAttribute("password", this.clientService.createNewPassword(email));
+        return "restore_password";
+    }
 }
