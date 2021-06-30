@@ -57,42 +57,53 @@
                     <h3 class="card-title">${order.product.brand.name}</h3>
                     <h3 class="card-title">${order.product.name}</h3>
                     <p class="card-text">${order.product.description}</p>
+                    <p class="card-text">Date: ${order.dateOfOrder}</p>
                     <p class="card-text">Price: ${order.product.price}$</p>
                     <p class="card-text"> Amount: ${order.amount}</p>
                     <p class="card-text">Total price: ${order.product.price * order.amount}$</p>
                 </div>
                 <hr>
-                <form action="/orders/${order.id}/changeAmount" method="post">
-                    <#if _csrf??>
-                        <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}" value="${(_csrf.token)!'csrf-token'}">
-                    </#if>
-                    <label for="amount">Change the amount of the product in your order:</label>
-                    <select class="form-select mt-2 py-2" aria-label=".form-select-sm example" name="amount" style="width: 40%">
-                        <option selected value="1">1</option>
-                        <#list 2..order.product.amount as x>
-                            <option value="${x}">${x}</option>
-                        </#list>
-                    </select>
-                    <button class="btn btn-outline-success ml-3 mb-1" type="submit">Change</button>
-                </form>
-                <hr>
-                <div>
-                    <a href="/orders/pay" class="btn btn-outline-success">Pay for order</a>
-                </div>
+                <#if !order.isPaid>
+                    <form action="/orders/${order.id}/changeAmount" method="post">
+                        <#if _csrf??>
+                            <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}" value="${(_csrf.token)!'csrf-token'}">
+                        </#if>
+                        <label for="amount">Change the amount of the product in your order:</label>
+                        <select class="form-select mt-2 py-2" aria-label=".form-select-sm example" name="amount" style="width: 40%">
+                            <option selected value="1">1</option>
+                            <#list 2..order.product.amount as x>
+                                <option value="${x}">${x}</option>
+                            </#list>
+                        </select>
+                        <button class="btn btn-outline-success ml-3 mb-1" type="submit">Change</button>
+                    </form>
+                    <hr>
+                    <div>
+                        <a href="/orders/${order.id}/pay" class="btn btn-outline-success">Pay for order</a>
+                    </div>
+                <#else>
+                    <div style="color: green; font-size: 20px">
+                        You've paid for this order already
+                    </div>
+                </#if>
+
             </div>
         </div>
     </div>
-    <div class="w-75 mx-auto mt-3">
-        <form action="/orders/delete" method="post">
-            <#if _csrf??>
-                <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}" value="${(_csrf.token)!'csrf-token'}">
-            </#if>
-            <input hidden type="text" name="orderId" value="${order.id}">
-            <input hidden type="text" name="productId" value="${order.product.id}">
-            <input hidden type="text" name="amount" value="${order.amount}">
-            <button type="submit" class="btn btn-danger ml-3 my-auto">Delete order</button>
-        </form>
-    </div>
+
+    <#if !order.isPaid>
+        <div class="w-75 mx-auto mt-3">
+            <form action="/orders/delete" method="post">
+                <#if _csrf??>
+                    <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}" value="${(_csrf.token)!'csrf-token'}">
+                </#if>
+                <input hidden type="text" name="orderId" value="${order.id}">
+                <input hidden type="text" name="productId" value="${order.product.id}">
+                <input hidden type="text" name="amount" value="${order.amount}">
+                <button type="submit" class="btn btn-danger ml-3 my-auto">Delete order</button>
+            </form>
+        </div>
+    </#if>
 
 </body>
 </html>

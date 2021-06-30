@@ -1,5 +1,6 @@
 package edu.attractor.onlinestore.controllers;
 
+import edu.attractor.onlinestore.dtos.FilterDto;
 import edu.attractor.onlinestore.dtos.OrderDto;
 import edu.attractor.onlinestore.dtos.ProductDto;
 import edu.attractor.onlinestore.entities.Client;
@@ -64,6 +65,29 @@ public class OrderController {
         Order order = this.orderService.getOrderById(orderId).orElseThrow(ResourceNotFoundException::new);
         model.addAttribute("order", modelMapper.map(order, OrderDto.class));
         return "order_details";
+    }
+
+    @GetMapping("/{orderId}/pay")
+    public String showPaymentPage(Model model, @PathVariable int orderId, Authentication auth){
+        Optional<Authentication> authOptional = Optional.of(auth);
+        this.clientService.isClientOnline(authOptional, model);
+        Order order = this.orderService.getOrderById(orderId).orElseThrow(ResourceNotFoundException::new);
+        model.addAttribute("order", modelMapper.map(order, OrderDto.class));
+        return "order_payment";
+    }
+
+    @PostMapping("/{orderId}/pay")
+    public String confirmPayment(Model model,
+                                 @PathVariable int orderId,
+                                 @RequestParam int productId,
+                                 Authentication auth){
+
+        Optional<Authentication> authOptional = Optional.of(auth);
+        this.clientService.isClientOnline(authOptional, model);
+
+        model.addAttribute("order",
+                modelMapper.map(this.orderService.payForOrder(orderId, productId), OrderDto.class));
+        return "order_payment";
     }
 
     @PostMapping("/{orderId}/changeAmount")

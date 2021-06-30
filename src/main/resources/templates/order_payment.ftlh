@@ -44,7 +44,27 @@
         </div>
     </nav>
 
-
-
+    <#if !order.isPaid>
+        <div class="card w-75 mx-auto mt-5 border-0">
+                <h2 class="card-title text-center">Confirm your order</h2>
+            <div class="card-body text-center" style="font-size: 24px">
+                <p class="card-text">Product: ${order.product.name}</p>
+                <p class="card-text">Amount: ${order.product.amount}</p>
+                <p class="card-text">Total: ${order.product.price * order.amount}$</p>
+                <form action="/orders/${order.id}/pay" method="post">
+                    <#if _csrf??>
+                        <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}" value="${(_csrf.token)!'csrf-token'}">
+                    </#if>
+                    <input hidden name="productId" value="${order.product.id}">
+                    <button class="btn btn-outline-success" type="submit">Pay</button>
+                </form>
+            </div>
+        </div>
+        <#else>
+            <div class="mt-3">
+                <h2 style="font-weight: bold">Thanks for purchase</h2>
+                <a href="/orders/basket">Back</a>
+            </div>
+    </#if>
 </body>
 </html>

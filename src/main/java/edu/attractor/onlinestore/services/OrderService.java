@@ -41,4 +41,11 @@ public class OrderService {
     public void changeAmountOfProductOfOrder(int orderId, int amount) {
         this.orderRepository.changeAmountOfOrder(orderId, amount);
     }
+
+    public Order payForOrder(int orderId, int productId) {
+        Order order = this.orderRepository.findById(orderId).orElseThrow(ResourceNotFoundException::new);
+        order.setIsPaid(true);
+        this.productService.decreaseAmountOfProduct(productId, order.getAmount());
+        return this.orderRepository.save(order);
+    }
 }
