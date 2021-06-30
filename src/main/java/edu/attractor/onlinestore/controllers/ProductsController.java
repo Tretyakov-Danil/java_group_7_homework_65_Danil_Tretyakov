@@ -60,6 +60,7 @@ public class ProductsController {
         Optional<Authentication> authOptional = Optional.ofNullable(auth);
         this.clientService.isClientOnline(authOptional, model);
         model.addAttribute("products", List.of());
+        model.addAttribute("firstSearch", true);
         return "search";
     }
 
@@ -71,6 +72,7 @@ public class ProductsController {
                 .map(product -> modelMapper.map(product, ProductDto.class))
                 .collect(Collectors.toList());
         model.addAttribute("products", products);
+        model.addAttribute("firstSearch", false);
         return "search";
     }
 

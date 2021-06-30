@@ -69,11 +69,11 @@
         <button type="submit" class="btn btn-outline-success px-4">Search</button>
         </div>
     </form>
-    <#if products?size=0>
+    <#if products?size=0 && firstSearch>
         <div class="text-center mt-4" style="font-size: 20px">Type something to find it</div>
     <#else>
-        <#if products?size=0>
-            <div class="text-center fs-4">Sorry, we didn't find anything.</div>
+        <#if !firstSearch && products?size=0>
+            <div class="text-center mt-4" style="font-size: 20px">Sorry, we didn't find anything.</div>
         <#else>
         <div class="row mx-auto mt-5 justify-content-center">
         <#list products as product>

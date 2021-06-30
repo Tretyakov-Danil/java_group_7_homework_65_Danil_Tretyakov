@@ -59,11 +59,12 @@
                     <button class="btn btn-outline-success" type="submit">Pay</button>
                 </form>
             </div>
+            <a href="/orders/basket" class="btn btn-success">Back</a>
         </div>
         <#else>
-            <div class="mt-3">
+            <div class="mt-3 mx-auto">
                 <h2 style="font-weight: bold">Thanks for purchase</h2>
-                <a href="/orders/basket">Back</a>
+                <a href="/orders/basket" class="btn btn-success mt-3">Back</a>
             </div>
     </#if>
 </body>

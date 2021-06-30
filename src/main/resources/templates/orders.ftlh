@@ -82,10 +82,10 @@
                 <li class="list-group-item list-item" style="color: green">On the way</li>
                 <#else>
                     <li class="list-group-item list-item" style="color: darkred">Not paid</li>
-                    <li class="list-group-item list-item border-0">
-                        <a href="/orders/${order.id}" class="btn btn-success ml-3 my-auto">See details</a>
-                    </li>
             </#if>
+            <li class="list-group-item list-item border-0">
+                <a href="/orders/${order.id}" class="btn btn-success ml-3 my-auto">See details</a>
+            </li>
         </ul>
     </#list>
     <a href="/orders" class="btn btn-success mt-3">Show all</a>
