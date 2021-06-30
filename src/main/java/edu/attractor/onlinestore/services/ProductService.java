@@ -63,8 +63,8 @@ public class ProductService {
         return products;
     }
 
-    public void changeAmountOfProduct(int productId, int amount) {
-        this.productRepository.changeAmount(productId, amount);
+    public void decreaseAmountOfProduct(int productId, int amount) {
+        this.productRepository.decreaseAmount(productId, amount);
     }
 
     public void addAmountToProduct(int productId, int amount) {

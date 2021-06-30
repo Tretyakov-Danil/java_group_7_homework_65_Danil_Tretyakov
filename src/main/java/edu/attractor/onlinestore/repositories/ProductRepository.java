@@ -22,7 +22,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Transactional
     @Modifying
     @Query("update Product p set p.amount = p.amount - ?2 where p.id = ?1")
-    void changeAmount(int productId, int amount);
+    void decreaseAmount(int productId, int amount);
 
     @Transactional
     @Modifying

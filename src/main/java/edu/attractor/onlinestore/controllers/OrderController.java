@@ -57,6 +57,28 @@ public class OrderController {
         return "orders";
     }
 
+    @GetMapping("/{orderId}")
+    public String showOrderDetails(Model model, @PathVariable int orderId, Authentication auth){
+        Optional<Authentication> authOptional = Optional.of(auth);
+        this.clientService.isClientOnline(authOptional, model);
+        Order order = this.orderService.getOrderById(orderId).orElseThrow(ResourceNotFoundException::new);
+        model.addAttribute("order", modelMapper.map(order, OrderDto.class));
+        return "order_details";
+    }
+
+    @PostMapping("/{orderId}/changeAmount")
+    public String changeAmountInOrder(RedirectAttributes redirAttrs,
+                                      @PathVariable int orderId,
+                                      @RequestParam int amount,
+                                      Authentication auth){
+        Optional<Authentication> authOptional = Optional.of(auth);
+        this.clientService.isClientOnline(authOptional, redirAttrs);
+
+        this.orderService.changeAmountOfProductOfOrder(orderId, amount);
+
+        return "redirect:/orders/" + orderId;
+    }
+
     @PostMapping(value = "/make")
     public String makeOrder(@RequestParam int productId,
                             @RequestParam int amount,
@@ -75,7 +97,6 @@ public class OrderController {
 
         this.orderService.saveNewOrder(newOrder);
 
-        this.productService.changeAmountOfProduct(productId, amount);
         return "redirect:/products/" + product.getId();
 
     }
@@ -84,12 +105,8 @@ public class OrderController {
     @PostMapping("/delete")
     public String deleteOrderFromBasket(RedirectAttributes redirAttrs,
                                         Authentication auth,
-                                        @RequestParam int orderId,
-                                        @RequestParam int productId,
-                                        @RequestParam int amount){
+                                        @RequestParam int orderId){
         this.orderService.deleteOrder(orderId);
-
-        this.productService.addAmountToProduct(productId, amount);
 
         Optional<Authentication> authOptional = Optional.of(auth);
         redirAttrs.addFlashAttribute("orders", this.orderService.getClientBasket(
@@ -98,6 +115,6 @@ public class OrderController {
                 .sorted(Comparator.comparing(OrderDto::getDateOfOrder).reversed())
                 .collect(Collectors.toList()));
 
-        return "redirect:/orders";
+        return "redirect:/orders/basket";
     }
 }

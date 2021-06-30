@@ -54,7 +54,7 @@ public class ClientService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", username)));
     }
 
-    public String createNewPassword(String email) {
+    public String restorePassword(String email) {
         Client client = this.clientRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         String newPassword = createRandomPassword();
         client.setPassword(passwordEncoder.encode(newPassword));

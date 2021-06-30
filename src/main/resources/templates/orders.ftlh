@@ -83,16 +83,7 @@
                 <#else>
                     <li class="list-group-item list-item" style="color: darkred">Not paid</li>
                     <li class="list-group-item list-item border-0">
-                        <form action="/orders/delete" method="post">
-                            <#if _csrf??>
-                                <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}" value="${(_csrf.token)!'csrf-token'}">
-                            </#if>
-                            <input type="hidden" name="_method" value="delete" />
-                            <input hidden type="text" name="orderId" value="${order.id}">
-                            <input hidden type="text" name="productId" value="${order.product.id}">
-                            <input hidden type="text" name="amount" value="${order.amount}">
-                        <button type="submit" class="btn btn-danger ml-3 my-auto">Delete</button>
-                        </form>
+                        <a href="/orders/${order.id}" class="btn btn-success ml-3 my-auto">See details</a>
                     </li>
             </#if>
         </ul>

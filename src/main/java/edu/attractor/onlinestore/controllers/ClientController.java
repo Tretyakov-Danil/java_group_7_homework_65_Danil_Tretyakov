@@ -69,7 +69,7 @@ public class ClientController {
     @PostMapping("/restore")
     public String restorePassword(Model model, @RequestParam String email){
         model.addAttribute("email", email);
-        model.addAttribute("password", this.clientService.createNewPassword(email));
+        model.addAttribute("password", this.clientService.restorePassword(email));
         return "restore_password";
     }
 }
