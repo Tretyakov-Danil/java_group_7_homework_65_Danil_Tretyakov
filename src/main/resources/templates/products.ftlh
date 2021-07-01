@@ -71,6 +71,25 @@
             </div>
         </#list>
     </div>
-    <a href="/products?size=${pages.getPageSize()}&page=${pages.pageNumber+1}" type="button">Next Page</a>
+    <div class="text-center">
+    <#if pages.pageNumber=0>
+        <a href="/products?size=${pages.getPageSize()}&page=${pages.pageNumber+1}" type="button" class="btn btn-success">Next Page</a>
+        <#elseif pages.pageNumber=pages.getPageSize()>
+        <a href="/products?size=${pages.getPageSize()}&page=${pages.pageNumber-1}" type="button" class="btn btn-success">Previous Page</a>
+        <#else>
+        <a href="/products?size=${pages.getPageSize()}&page=${pages.pageNumber-1}" type="button" class="btn btn-success">Previous Page</a>
+        <a href="/products?size=${pages.getPageSize()}&page=${pages.pageNumber+1}" type="button" class="btn btn-success">Next Page</a>
+    </#if>
+    </div>
+
+    <form action="/products" method="get" class="mt-5">
+        <select class="form-select mt-2 py-2" style="width: 49.5%" aria-label=".form-select-sm example" name="lang">
+            <option selected value=""><@spring.message "label.lang"/></option>
+            <option value="" disabled>-------</option>
+            <option value="ru_RU">Русский</option>
+            <option value="">English(USA)</option>
+        </select>
+        <button type="submit" class="btn btn-success mt-3"><@spring.message "button.language-change.text"/></button>
+    </form>
 </body>
 </html>

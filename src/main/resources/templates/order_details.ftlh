@@ -58,7 +58,7 @@
                     <h3 class="card-title">${order.product.brand.name}</h3>
                     <h3 class="card-title">${order.product.name}</h3>
                     <p class="card-text">${order.product.description}</p>
-                    <p class="card-text"><@spring.message "order.date"/>: ${order.dateOfOrder.chronology?string.short}</p>
+                    <p class="card-text"><@spring.message "order.date"/>: ${order.dateOfOrder.toString()}</p>
                     <p class="card-text"><@spring.message "order.price"/>: ${order.product.price}$</p>
                     <p class="card-text"><@spring.message "orders.amount"/>: ${order.amount}</p>
                     <p class="card-text"><@spring.message "orders.total"/>: ${(order.product.price * order.amount)}$</p>
@@ -104,7 +104,5 @@
             </form>
         </div>
     </#if>
-
-
 </body>
 </html>
