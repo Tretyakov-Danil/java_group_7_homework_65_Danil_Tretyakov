@@ -1,5 +1,6 @@
+<#import "/spring.ftl" as spring>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${.locale}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,19 +10,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
         <div class="container-fluid">
             <form action="/products" method="get">
                 <button class="border-0 bg-transparent" style="font-size: 28px" type="submit">ONLINE STORE</button>
             </form>
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 mr-3">
+                <li class="nav-item mx-5">
+                    <form action="/products/filter" method="get">
+                        <button class="btn active px-4 mr-5 btn-outline-success" type="submit"><@spring.message "button.search"/></button>
+                    </form>
+                </li>
                 <li class="nav-item mr-4">
                     <a href="/orders/basket"><i class="fas fa-shopping-cart mt-1" style="font-size: 24px"></i></a>
-                </li>
-                <li class="nav-item">
-                    <form action="/products/filter" method="get">
-                        <button class="btn active px-4 mr-5 btn-outline-success" type="submit">Search</button>
-                    </form>
                 </li>
                 <#if isOnline>
                     <li class="nav-item mr-3 my-auto">
@@ -33,47 +34,48 @@
                                 <input type="hidden"
                                        name="${(_csrf.parameterName)!'csrf'}"
                                        value="${(_csrf.token)!'--no-token--'}">
-                                <button class="btn btn-outline-success active px-4" type="submit">Logout</button>
+                                <button class="btn btn-outline-success active px-4" type="submit"><@spring.message "button.logout"/></button>
                             </form>
                         </li>
                     <#else>
                         <li class="nav-item">
-                            <a href="/logout" class="btn btn-outline-success active px-4">Logout</a>
+                            <a href="/logout" class="btn btn-outline-success active px-4"><@spring.message "button.logout"/></a>
                         </li>
                     </#if>
                 <#else>
                     <li class="nav-item">
-                        <a href="/client/login" class="btn active px-4 btn-outline-success">Sign in</a>
+                        <a href="/client/login" class="btn active px-4 btn-outline-success"><@spring.message "button.login"/></a>
                     </li>
                 </#if>
+            </ul>
         </div>
     </nav>
 
     <form class="mx-auto w-75 mt-3" action="/products/filter/result" method="get" modelAttribute="filter">
-            <input type="text" class="form-control" name="name" placeholder="Enter the name of the product">
+            <input type="text" class="form-control" name="name" placeholder="<@spring.message "search.placeholder"/>">
             <div class="text-center">
                 <select class="form-select mt-2 py-2" style="width: 49.5%" aria-label=".form-select-sm example" name="brand">
-                    <option selected value="">Brand</option>
+                    <option selected value=""><@spring.message "search.brand"/></option>
                     <option value="Apple">Apple</option>
                     <option value="Samsung">Samsung</option>
                     <option value="Xiaomi">Xiaomi</option>
                 </select>
                 <select class="form-select mt-2 py-2" style="width: 49.5%" aria-label=".form-select-sm example" name="type">
-                    <option selected value="">Type</option>
+                    <option selected value=""><@spring.message "search.type"/></option>
                     <option value="SMARTPHONE">SMARTPHONE</option>
                     <option value="CASE">CASE</option>
                     <option value="HEADSET">HEADSET</option>
                 </select>
             </div>
         <div class="mt-3 mx-auto text-center">
-        <button type="submit" class="btn btn-outline-success px-4">Search</button>
+        <button type="submit" class="btn btn-outline-success px-4"><@spring.message "button.search"/></button>
         </div>
     </form>
     <#if products?size=0 && firstSearch>
-        <div class="text-center mt-4" style="font-size: 20px">Type something to find it</div>
+        <div class="text-center mt-4" style="font-size: 20px"><@spring.message "search.message.start"/></div>
     <#else>
         <#if !firstSearch && products?size=0>
-            <div class="text-center mt-4" style="font-size: 20px">Sorry, we didn't find anything.</div>
+            <div class="text-center mt-4" style="font-size: 20px"><@spring.message "search.message.error"/></div>
         <#else>
         <div class="row mx-auto mt-5 justify-content-center">
         <#list products as product>
@@ -87,7 +89,7 @@
                         <h5 class="card-title">${product.name}</h5>
                         <p class="card-text">${product.description}</p>
                         <form action="/products/${product.id}">
-                            <button class="btn btn-outline-success" type="submit">More info</button>
+                            <button class="btn btn-outline-success" type="submit"><@spring.message "button.info"/></button>
                         </form>
                     </div>
                 </div>

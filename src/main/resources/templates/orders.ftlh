@@ -1,5 +1,6 @@
+<#import "/spring.ftl" as spring>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${.locale}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,7 +32,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item mx-5">
                     <form action="/products/filter" method="get">
-                        <button class="btn active px-4 mr-5 btn-outline-success" type="submit">Search</button>
+                        <button class="btn active px-4 mr-5 btn-outline-success" type="submit"><@spring.message "button.search"/></button>
                     </form>
                 </li>
                 <li class="nav-item mr-4">
@@ -46,12 +47,12 @@
                             <input type="hidden"
                                    name="${(_csrf.parameterName)!'csrf'}"
                                    value="${(_csrf.token)!'--no-token--'}">
-                            <button class="btn btn-outline-success active px-4" type="submit">Logout</button>
+                            <button class="btn btn-outline-success active px-4" type="submit"><@spring.message "button.logout"/></button>
                         </form>
                     </li>
                 <#else>
                     <li class="nav-item">
-                        <a href="/logout" class="btn btn-outline-success active px-4">Logout</a>
+                        <a href="/logout" class="btn btn-outline-success active px-4"><@spring.message "button.logout"/></a>
                     </li>
                 </#if>
             </ul>
@@ -60,17 +61,17 @@
 
     <div class="mx-auto" style="width: 85%">
         <#if all>
-            <a href="/orders/basket" class="btn btn-success my-3">Hide</a>
+            <a href="/orders/basket" class="btn btn-success my-3"><@spring.message "orders.button.hide"/></a>
         <#else>
-            <a href="/orders" class="btn btn-success my-3">Show all</a>
+            <a href="/orders" class="btn btn-success my-3"><@spring.message "orders.button.show-all"/></a>
         </#if>
         <ul class="list-group list-group-horizontal">
-            <li class="list-group-item list-item">Name</li>
-            <li class="list-group-item descr">Description</li>
-            <li class="list-group-item amount">Amount</li>
-            <li class="list-group-item list-item">Total price</li>
-            <li class="list-group-item list-item">Date of order</li>
-            <li class="list-group-item list-item">Status</li>
+            <li class="list-group-item list-item"><@spring.message "orders.name"/></li>
+            <li class="list-group-item descr"><@spring.message "orders.description"/></li>
+            <li class="list-group-item amount"><@spring.message "orders.amount"/></li>
+            <li class="list-group-item list-item"><@spring.message "order.price"/></li>
+            <li class="list-group-item list-item"><@spring.message "orders.date-of-order"/></li>
+            <li class="list-group-item list-item"><@spring.message "orders.status"/></li>
             <li class="list-group-item border-0 list-item"></li>
         </ul>
         <#list orders as order>
@@ -84,12 +85,12 @@
                     <p>${order.dateOfOrder.hour}:${order.dateOfOrder.minute}</p>
                 </li>
                 <#if order.isPaid>
-                    <li class="list-group-item list-item" style="color: green">On the way</li>
+                    <li class="list-group-item list-item" style="color: green"><@spring.message "orders.status.on-the-way"/></li>
                     <#else>
-                        <li class="list-group-item list-item" style="color: darkred">Not paid</li>
+                        <li class="list-group-item list-item" style="color: darkred"><@spring.message "orders.status.not-paid"/></li>
                 </#if>
                 <li class="list-group-item list-item border-0">
-                    <a href="/orders/${order.id}" class="btn btn-success ml-3 my-auto">See details</a>
+                    <a href="/orders/${order.id}" class="btn btn-success ml-3 my-auto"><@spring.message "orders.button.details"/></a>
                 </li>
             </ul>
         </#list>

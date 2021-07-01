@@ -1,5 +1,6 @@
+<#import "/spring.ftl" as spring>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${.locale}">
 <head>
     <meta charset="UTF-8">
     <title>Online Store</title>
@@ -9,29 +10,29 @@
 </head>
 <body>
     <div class="w-50 mx-auto text-center">
-        <h3 class="mt-3">Password recovery</h3>
+        <h3 class="mt-3"><@spring.message "restore-password.title"/></h3>
         <#if !email??>
             <form action="/client/restore" method="post" class="mb-3">
                 <#if _csrf??>
                     <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}" value="${(_csrf.token)!'csrf-token'}">
                 </#if>
                 <div class="mb-3">
-                    <label for="email" class="form-label">Enter your email address, we will sent new password for you</label>
-                    <input type="email" id="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Your email" required>
+                    <label for="email" class="form-label"><@spring.message "restore-password.message"/></label>
+                    <input type="email" id="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="<@spring.message "restore-password.placeholder"/>" required>
                 </div>
-                <button type="submit" class="btn btn-success login-button mt-2">Get new password</button>
+                <button type="submit" class="btn btn-success login-button mt-2"><@spring.message "restore-password.button-get-password"/></button>
             </form>
         <#else>
             <div class="mb-3" style="font-size: 18px">
-                <p>Email: ${email}</p>
+                <p><@spring.message "restore-password.email"/>: ${email}</p>
                 <hr>
-                <p>Remember your new password:</p>
+                <p><@spring.message "restore-password.message-remember"/>:</p>
                 <p style="font-size: 24px; font-weight: bold">${password}</p>
-                <span>Never share your password with anyone</span>
+                <span><@spring.message "restore-password.message-warning"/></span>
             </div>
         </#if>
         <div class="text-center">
-            <a href="/client/login" class="btn btn-success" style="width: 10%">Back to login</a>
+            <a href="/client/login" class="btn btn-success" style="width: 10%"><@spring.message "restore-password.button.back"/></a>
         </div>
     </div>
 

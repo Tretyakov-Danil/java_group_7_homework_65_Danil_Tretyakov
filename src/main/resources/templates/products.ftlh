@@ -1,5 +1,6 @@
+<#import "/spring.ftl" as spring>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${.locale}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +18,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 mr-3">
                 <li class="nav-item mx-5">
                     <form action="/products/filter" method="get">
-                        <button class="btn active px-4 mr-5 btn-outline-success" type="submit">Search</button>
+                        <button class="btn active px-4 mr-5 btn-outline-success" type="submit"><@spring.message "button.search"/></button>
                     </form>
                 </li>
                 <li class="nav-item mr-4">
@@ -33,17 +34,17 @@
                                 <input type="hidden"
                                        name="${(_csrf.parameterName)!'csrf'}"
                                        value="${(_csrf.token)!'--no-token--'}">
-                                <button class="btn btn-outline-success active px-4" type="submit">Logout</button>
+                                <button class="btn btn-outline-success active px-4" type="submit"><@spring.message "button.logout"/></button>
                             </form>
                         </li>
                     <#else>
                         <li class="nav-item">
-                            <a href="/logout" class="btn btn-outline-success active px-4">Logout</a>
+                            <a href="/logout" class="btn btn-outline-success active px-4"><@spring.message "button.logout"/></a>
                         </li>
                     </#if>
                 <#else>
                     <li class="nav-item">
-                        <a href="/client/login" class="btn active px-4 btn-outline-success">Sign in</a>
+                        <a href="/client/login" class="btn active px-4 btn-outline-success"><@spring.message "button.login"/></a>
                     </li>
                 </#if>
             </ul>
@@ -62,7 +63,7 @@
                             <h5 class="card-title">${product.name}</h5>
                             <p class="card-text">${product.description}</p>
                             <form action="/products/${product.id}">
-                                <button class="btn btn-outline-success" type="submit">More info</button>
+                                <button class="btn btn-outline-success" type="submit"><@spring.message "button.info"/></button>
                             </form>
                         </div>
                     </div>

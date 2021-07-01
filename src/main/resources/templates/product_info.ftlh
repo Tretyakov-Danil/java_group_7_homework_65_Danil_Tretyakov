@@ -1,5 +1,6 @@
+<#import "/spring.ftl" as spring>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${.locale}">
 <head>
     <meta charset="UTF-8">
     <title>Online Store</title>
@@ -8,15 +9,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
         <div class="container-fluid">
             <form action="/products" method="get">
                 <button class="border-0 bg-transparent" style="font-size: 28px" type="submit">ONLINE STORE</button>
             </form>
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 mr-3">
                 <li class="nav-item mx-5">
                     <form action="/products/filter" method="get">
-                        <button class="btn active px-4 mr-5 btn-outline-success" type="submit">Search</button>
+                        <button class="btn active px-4 mr-5 btn-outline-success" type="submit"><@spring.message "button.search"/></button>
                     </form>
                 </li>
                 <li class="nav-item mr-4">
@@ -32,17 +33,17 @@
                                 <input type="hidden"
                                        name="${(_csrf.parameterName)!'csrf'}"
                                        value="${(_csrf.token)!'--no-token--'}">
-                                <button class="btn btn-outline-success active px-4" type="submit">Logout</button>
+                                <button class="btn btn-outline-success active px-4" type="submit"><@spring.message "button.logout"/></button>
                             </form>
                         </li>
                     <#else>
                         <li class="nav-item">
-                            <a href="/logout" class="btn btn-outline-success active px-4">Logout</a>
+                            <a href="/logout" class="btn btn-outline-success active px-4"><@spring.message "button.logout"/></a>
                         </li>
                     </#if>
                 <#else>
                     <li class="nav-item">
-                        <a href="/client/login" class="btn active px-4 btn-outline-success">Sign in</a>
+                        <a href="/client/login" class="btn active px-4 btn-outline-success"><@spring.message "button.login"/></a>
                     </li>
                 </#if>
             </ul>
@@ -58,15 +59,15 @@
                     <h3 class="card-title">${product.brand.name}</h3>
                     <h3 class="card-title">${product.name}</h3>
                     <p class="card-text">${product.description}</p>
-                    <p class="card-text">Price: ${product.price}$</p>
-                    <p class="card-text"> Amount: ${product.amount}</p>
+                    <p class="card-text"><@spring.message "product.price"/>: ${product.price}$</p>
+                    <p class="card-text"><@spring.message "product.amount"/>: ${product.amount}</p>
                 </div>
                 <hr>
                 <form action="/orders/make" method="post">
                     <#if _csrf??>
                         <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}" value="${(_csrf.token)!'csrf-token'}">
                     </#if>
-                    <label for="amount">Choose the amount:</label>
+                    <label for="amount"><@spring.message "choose.product.amount"/>:</label>
                     <input hidden id="amount" name="productId" value="${product.id}">
                     <select class="form-select mt-2 py-2 w-50" aria-label=".form-select-sm example" name="amount">
                         <option selected value="1">1</option>
@@ -74,7 +75,7 @@
                             <option value="${x}">${x}</option>
                         </#list>
                     </select>
-                    <button class="btn btn-outline-success ml-3" type="submit">Add to basket</button>
+                    <button class="btn btn-outline-success ml-3" type="submit"><@spring.message "button.add"/></button>
                 </form>
             </div>
         </div>
