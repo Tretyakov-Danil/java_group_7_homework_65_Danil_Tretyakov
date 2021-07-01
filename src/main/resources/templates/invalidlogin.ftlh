@@ -1,5 +1,6 @@
+<#import "/spring.ftl" as spring>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${.locale}">
 <head>
     <meta charset="UTF-8">
     <title>Online Store</title>
@@ -8,11 +9,11 @@
 </head>
 <body>
     <div class="w-50 text-center mx-auto">
-        <h3>Oops, something's gone wrong!</h3>
+        <h3><@spring.message "invalid.login.message"/></h3>
     </div>
     <div class="text-center mt-4">
         <form action="/client/login" method="get">
-            <button type="submit" class="btn btn-success">Try again</button>
+            <button type="submit" class="btn btn-success"><@spring.message "invalid.login.back"/></button>
         </form>
     </div>
 </body>

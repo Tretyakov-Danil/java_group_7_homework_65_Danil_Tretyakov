@@ -1,5 +1,6 @@
+<#import "/spring.ftl" as spring>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${.locale}">
 <head>
     <meta charset="UTF-8">
     <title>Online Store</title>
@@ -16,7 +17,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item mx-5">
                     <form action="/products/filter" method="get">
-                        <button class="btn active px-4 mr-5 btn-outline-success" type="submit">Search</button>
+                        <button class="btn active px-4 mr-5 btn-outline-success" type="submit"><@spring.message "button.search"/></button>
                     </form>
                 </li>
                 <li class="nav-item mr-4">
@@ -31,12 +32,12 @@
                             <input type="hidden"
                                    name="${(_csrf.parameterName)!'csrf'}"
                                    value="${(_csrf.token)!'--no-token--'}">
-                            <button class="btn btn-outline-success active px-4" type="submit">Logout</button>
+                            <button class="btn btn-outline-success active px-4" type="submit"><@spring.message "button.logout"/></button>
                         </form>
                     </li>
                 <#else>
                     <li class="nav-item">
-                        <a href="/logout" class="btn btn-outline-success active px-4">Logout</a>
+                        <a href="/logout" class="btn btn-outline-success active px-4"><@spring.message "button.logout"/></a>
                     </li>
                 </#if>
             </ul>
@@ -45,9 +46,9 @@
 
     <div class="card mt-3 mx-auto w-75 border-0">
         <div class="text-right mt-3">
-            <a href="/orders/basket" class="btn btn-outline-success">Back to basket</a>
+            <a href="/orders/basket" class="btn btn-outline-success"><@spring.message "order.button.back"/></a>
         </div>
-        <h5 style="font-size: 12px">Order №${order.id}</h5>
+        <h5 style="font-size: 12px"><@spring.message "order.id"/> №${order.id}</h5>
         <div class="row g-0">
             <div class="col-md-4">
                 <img src="/images/${order.product.imagePath}" alt="Product's photo" class="img-fluid">
@@ -57,10 +58,10 @@
                     <h3 class="card-title">${order.product.brand.name}</h3>
                     <h3 class="card-title">${order.product.name}</h3>
                     <p class="card-text">${order.product.description}</p>
-                    <p class="card-text">Date: ${order.dateOfOrder}</p>
-                    <p class="card-text">Price: ${order.product.price}$</p>
-                    <p class="card-text"> Amount: ${order.amount}</p>
-                    <p class="card-text">Total price: ${order.product.price * order.amount}$</p>
+                    <p class="card-text"><@spring.message "order.date"/>: ${order.dateOfOrder.chronology?string.short}</p>
+                    <p class="card-text"><@spring.message "order.price"/>: ${order.product.price}$</p>
+                    <p class="card-text"><@spring.message "orders.amount"/>: ${order.amount}</p>
+                    <p class="card-text"><@spring.message "orders.total"/>: ${(order.product.price * order.amount)}$</p>
                 </div>
                 <hr>
                 <#if !order.isPaid>
@@ -68,25 +69,24 @@
                         <#if _csrf??>
                             <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}" value="${(_csrf.token)!'csrf-token'}">
                         </#if>
-                        <label for="amount">Change the amount of the product in your order:</label>
+                        <label for="amount"><@spring.message "order.change-amount-label"/>:</label>
                         <select class="form-select mt-2 py-2" aria-label=".form-select-sm example" name="amount" style="width: 40%">
                             <option selected value="1">1</option>
                             <#list 2..order.product.amount as x>
                                 <option value="${x}">${x}</option>
                             </#list>
                         </select>
-                        <button class="btn btn-outline-success ml-3 mb-1" type="submit">Change</button>
+                        <button class="btn btn-outline-success ml-3 mb-1" type="submit"><@spring.message "order.button-change-amount"/></button>
                     </form>
                     <hr>
                     <div>
-                        <a href="/orders/${order.id}/pay" class="btn btn-outline-success">Pay for order</a>
+                        <a href="/orders/${order.id}/pay" class="btn btn-outline-success"><@spring.message "order.button-pay"/></a>
                     </div>
                 <#else>
                     <div style="color: green; font-size: 20px">
-                        You've paid for this order already
+                        <@spring.message "order.message.purchased"/>
                     </div>
                 </#if>
-
             </div>
         </div>
     </div>
@@ -100,7 +100,7 @@
                 <input hidden type="text" name="orderId" value="${order.id}">
                 <input hidden type="text" name="productId" value="${order.product.id}">
                 <input hidden type="text" name="amount" value="${order.amount}">
-                <button type="submit" class="btn btn-danger ml-3 my-auto">Delete order</button>
+                <button type="submit" class="btn btn-danger ml-3 my-auto"><@spring.message "order.button.delete"/></button>
             </form>
         </div>
     </#if>

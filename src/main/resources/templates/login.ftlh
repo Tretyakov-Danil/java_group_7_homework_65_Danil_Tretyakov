@@ -1,5 +1,6 @@
+<#import "/spring.ftl" as spring>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${.locale}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +27,7 @@
                 </li>
                 <li class="nav-item">
                     <form action="/products/filter" method="get">
-                        <button class="btn active px-4 mr-5 btn-outline-success" type="submit">Search</button>
+                        <button class="btn active px-4 mr-5 btn-outline-success" type="submit"><@spring.message "button.search"/></button>
                     </form>
                 </li>
             </ul>
@@ -34,7 +35,7 @@
     </nav>
     <div class="text-center mt-2">
     <h2>Online Store</h2>
-    <h3 class="mt-3">Login</h3>
+    <h3 class="mt-3"><@spring.message "login"/></h3>
     </div>
     <#if error!false >
         <p style="color:red">Неверные имя пользователя или пароль !</p>
@@ -45,17 +46,17 @@
                 <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}" value="${(_csrf.token)!'csrf-token'}">
             </#if>
             <div class="mb-3">
-                <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter your email" value="${(dto.email)!''}">
+                <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="<@spring.message "login.email.placeholder"/>" value="${(dto.email)!''}">
             </div>
             <div class="mb-3">
-                <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Enter your password" value="">
+                <input type="password" class="form-control" id="inputPassword" name="password" placeholder="<@spring.message "login.password.placeholder"/>" value="">
             </div>
-            <a href="/client/restore">Forgot your password?</a>
-            <button type="submit" class="btn btn-success login-button mt-2">Sign in</button>
+            <a href="/client/restore"><@spring.message "login.forgot"/></a>
+            <button type="submit" class="btn btn-success login-button mt-2"><@spring.message "button.login"/></button>
         </form>
         <div class="mt-3">
             <form action="/client/register" method="get">
-                <button type="submit" class="btn btn-success login-button">Register</button>
+                <button type="submit" class="btn btn-success login-button"><@spring.message "register"/></button>
             </form>
         </div>
     </div>

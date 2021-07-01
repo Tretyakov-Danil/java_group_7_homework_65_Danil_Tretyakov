@@ -35,15 +35,18 @@
                 <input type="hidden" name="${(_csrf.parameterName)!'csrf'}" value="${(_csrf.token)!'--no-token--'}"/>
             </#if>
             <div class="mb-3">
-                <input type="text" class="form-control" name="username" aria-describedby="emailHelp" placeholder="Enter your username" value="${(dto.name)!''}">
+                <input type="text" class="form-control" name="username" aria-describedby="emailHelp" placeholder="<@spring.message "login.username.placeholder"/>" value="${(dto.name)!''}">
             </div>
             <div class="mb-3">
-                <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter your email" value="${(dto.email)!''}">
+                <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="<@spring.message "login.email.placeholder"/>" value="${(dto.email)!''}">
             </div>
             <div class="mb-3">
-                <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Enter your password" value="">
+                <input type="password" class="form-control" id="inputPassword" name="password" placeholder="<@spring.message "login.password.placeholder"/>" value="">
             </div>
-            <button type="submit" class="btn btn-success login-button"><@spring.message "register.button"/></button>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success login-button"><@spring.message "register.button"/></button>
+
+            </div>
         </form>
     </div>
 </body>
