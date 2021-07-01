@@ -17,7 +17,7 @@
                 </#if>
                 <div class="mb-3">
                     <label for="email" class="form-label">Enter your email address, we will sent new password for you</label>
-                    <input type="email" id="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Your email">
+                    <input type="email" id="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Your email" required>
                 </div>
                 <button type="submit" class="btn btn-success login-button mt-2">Get new password</button>
             </form>
@@ -27,11 +27,11 @@
                 <hr>
                 <p>Remember your new password:</p>
                 <p style="font-size: 24px; font-weight: bold">${password}</p>
-                <span>Never give anyone your password</span>
+                <span>Never share your password with anyone</span>
             </div>
         </#if>
         <div class="text-center">
-            <a href="/client/login" class="btn btn-success">Back to login</a>
+            <a href="/client/login" class="btn btn-success" style="width: 10%">Back to login</a>
         </div>
     </div>
 

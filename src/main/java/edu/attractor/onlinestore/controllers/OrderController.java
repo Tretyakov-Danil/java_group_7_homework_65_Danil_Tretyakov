@@ -44,6 +44,7 @@ public class OrderController {
                 .map(order -> modelMapper.map(order, OrderDto.class))
                 .sorted(Comparator.comparing(OrderDto::getDateOfOrder).reversed())
                 .collect(Collectors.toList()));
+        model.addAttribute("all", true);
         return "orders";
     }
 
@@ -55,6 +56,7 @@ public class OrderController {
                 .map(order -> modelMapper.map(order, OrderDto.class))
                 .sorted(Comparator.comparing(OrderDto::getDateOfOrder).reversed())
                 .collect(Collectors.toList()));
+        model.addAttribute("all", false);
         return "orders";
     }
 

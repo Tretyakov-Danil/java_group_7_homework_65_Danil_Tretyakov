@@ -59,36 +59,41 @@
     </nav>
 
     <div class="mx-auto" style="width: 85%">
-    <ul class="list-group list-group-horizontal">
-        <li class="list-group-item list-item">Name</li>
-        <li class="list-group-item descr">Description</li>
-        <li class="list-group-item amount">Amount</li>
-        <li class="list-group-item list-item">Total price</li>
-        <li class="list-group-item list-item">Date of order</li>
-        <li class="list-group-item list-item">Status</li>
-        <li class="list-group-item border-0 list-item"></li>
-    </ul>
-    <#list orders as order>
+        <#if all>
+            <a href="/orders/basket" class="btn btn-success my-3">Hide</a>
+        <#else>
+            <a href="/orders" class="btn btn-success my-3">Show all</a>
+        </#if>
         <ul class="list-group list-group-horizontal">
-            <li class="list-group-item list-item" style="padding: 12px 5px">${order.product.name}</li>
-            <li class="list-group-item descr">${order.product.description}</li>
-            <li class="list-group-item amount">${order.amount}</li>
-            <li class="list-group-item list-item">${order.amount * order.product.price}</li>
-            <li class="list-group-item list-item">
-                ${order.dateOfOrder.dayOfMonth}.<#if order.dateOfOrder.monthValue<10>0${order.dateOfOrder.monthValue}<#else>${order.dateOfOrder.monthValue}</#if>.${order.dateOfOrder.year}
-                <p>${order.dateOfOrder.hour}:${order.dateOfOrder.minute}</p>
-            </li>
-            <#if order.isPaid>
-                <li class="list-group-item list-item" style="color: green">On the way</li>
-                <#else>
-                    <li class="list-group-item list-item" style="color: darkred">Not paid</li>
-            </#if>
-            <li class="list-group-item list-item border-0">
-                <a href="/orders/${order.id}" class="btn btn-success ml-3 my-auto">See details</a>
-            </li>
+            <li class="list-group-item list-item">Name</li>
+            <li class="list-group-item descr">Description</li>
+            <li class="list-group-item amount">Amount</li>
+            <li class="list-group-item list-item">Total price</li>
+            <li class="list-group-item list-item">Date of order</li>
+            <li class="list-group-item list-item">Status</li>
+            <li class="list-group-item border-0 list-item"></li>
         </ul>
-    </#list>
-    <a href="/orders" class="btn btn-success mt-3">Show all</a>
+        <#list orders as order>
+            <ul class="list-group list-group-horizontal">
+                <li class="list-group-item list-item" style="padding: 12px 5px">${order.product.name}</li>
+                <li class="list-group-item descr">${order.product.description}</li>
+                <li class="list-group-item amount">${order.amount}</li>
+                <li class="list-group-item list-item">${order.amount * order.product.price}</li>
+                <li class="list-group-item list-item">
+                    ${order.dateOfOrder.dayOfMonth}.<#if order.dateOfOrder.monthValue<10>0${order.dateOfOrder.monthValue}<#else>${order.dateOfOrder.monthValue}</#if>.${order.dateOfOrder.year}
+                    <p>${order.dateOfOrder.hour}:${order.dateOfOrder.minute}</p>
+                </li>
+                <#if order.isPaid>
+                    <li class="list-group-item list-item" style="color: green">On the way</li>
+                    <#else>
+                        <li class="list-group-item list-item" style="color: darkred">Not paid</li>
+                </#if>
+                <li class="list-group-item list-item border-0">
+                    <a href="/orders/${order.id}" class="btn btn-success ml-3 my-auto">See details</a>
+                </li>
+            </ul>
+        </#list>
+
     </div>
 </body>
 </html>
